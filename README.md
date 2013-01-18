@@ -3,6 +3,8 @@ AppRater
 
 AppRater is a library for Android designed to facilitate easy prompting of users to rate your app within the Google Play store.
 
+AppRater inherits your theming so can be used with light or dark variants as seen here;
+
 ![Example Image Dark][1] ![Example Image Light][2]
 
 To use simply add the library to your app and make one call within your onCreate method as follows;
