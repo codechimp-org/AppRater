@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">AppRater</string>
+
+    <string name="dialog_title">Rate %s</string>
+    <string name="rate_message">If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
+    <string name="rate">Rate Now</string>
+    <string name="later">Remind me later</string>
+    <string name="no_thanks">No thanks</string>
+</resources>
