@@ -12,6 +12,11 @@ To use simply add the library to your app and make one call within your onCreate
 
 Try out the demo within this repository.
 
+Translations
+============
+If you would like to help localise this library please contribute to the GetLocalization project located here
+[http://www.getlocalization.com/AppRater/](http://www.getlocalization.com/AppRater/)
+
 Developed By
 ============
 
