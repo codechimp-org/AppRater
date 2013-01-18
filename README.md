@@ -22,7 +22,10 @@ If you would like to help localise this library please contribute to the GetLoca
 Developed By
 ============
 
-* Andrew Jackson <andrew@codechimp.org>
+Andrew Jackson <andrew@codechimp.org>
+
+Google+ profile: 
+[https://plus.google.com/109496301003141993140](https://plus.google.com/109496301003141993140)
 
 
 
