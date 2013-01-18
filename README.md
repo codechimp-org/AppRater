@@ -10,7 +10,6 @@ To use simply add the library to your app and make one call within your onCreate
 `AppRater.app_launched(this);`
 
 
-
 Try out the demo within this repository.
 
 Developed By
@@ -41,5 +40,5 @@ License
 
 
 
- [1]: http://github.com
- [2]: http://github.com
+ [1]: https://raw.github.com/codechimp-org/AppRater/master/Screenshots/demo-dark.png
+ [2]: https://raw.github.com/codechimp-org/AppRater/master/Screenshots/demo-light.png
