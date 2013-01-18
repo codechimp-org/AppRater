@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">AppRater</string>
+
+    <string name="dialog_title">Vota %s</string>
+    <string name="rate_message">Se ti piace usare questa applicazione, per favore prendi un momento per votarla. Grazie per il tuo supporto!</string>
+    <string name="rate">Vota Ora</string>
+    <string name="later">Ricordamelo più tardi</string>
+    <string name="no_thanks">No grazie</string>
+</resources>
