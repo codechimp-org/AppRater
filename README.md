@@ -28,7 +28,7 @@ Andrew Jackson <andrew@codechimp.org>
 Google+ profile: 
 [https://plus.google.com/109496301003141993140](https://plus.google.com/109496301003141993140)
 
-
+Adapted from a snippet originally posted [here](http://www.androidsnippets.com/prompt-engaged-users-to-rate-your-app-in-the-android-market-appirater)
 
 License
 =======
