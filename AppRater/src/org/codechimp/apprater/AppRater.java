@@ -89,6 +89,7 @@ public class AppRater {
 						if (editor != null) {
 							Long date_firstLaunch = System.currentTimeMillis();
 							editor.putLong("date_firstlaunch", date_firstLaunch);
+							editor.commit();
 						}
 						dialog.dismiss();
 					}
