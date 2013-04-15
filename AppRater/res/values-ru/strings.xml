@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">AppRater</string>
+
+    <string name="dialog_title">Выставить оценку %s</string>
+    <string name="rate_message">Удачи в работе с приложением. Спасибо за оценку!</string>
+    <string name="rate">Оценить сейчас</string>
+    <string name="later">Напомнить позже.</string>
+    <string name="no_thanks">Спасибо , но - нет.</string>
+</resources>
