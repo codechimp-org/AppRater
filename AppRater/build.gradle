@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android-library'
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 17
+    }
+    
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            res.srcDirs = ['res']
+        }
+    }
+}
+
+apply plugin: 'maven-publish'
+
+group = 'org.codechimp'
+version = '1.0.0'
+
+android.libraryVariants
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact bundleRelease
+        }
+    }
+    repositories {
+        maven {
+            url "file://$buildDir/../../ark/releases"
+        }
+    }
+}
