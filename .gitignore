@@ -14,3 +14,10 @@ gen/
 
 # Local configuration file (sdk path, etc)
 local.properties
+
+# Android Studio files
+out/
+build/
+*.iml
+.idea
+
