@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">AppRater</string>
+
+    <string name="dialog_title">Ohodnoťte %s</string>
+    <string name="rate_message">Jestli se Vám aplikace líbí, prosím věnujte chvíli jejímu ohodnocení. Moc děkujeme za vaši podporu.</string>
+    <string name="rate">Ohodnotit nyní</string>
+    <string name="later">Později</string>
+    <string name="no_thanks">Ne, děkuji</string>
+</resources>
