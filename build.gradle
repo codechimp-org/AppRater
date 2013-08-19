@@ -9,6 +9,9 @@ buildscript {
 }
 
 allprojects {
+    group = 'com.github.codechimp-org.apprater'
+    version = '1.0-SNAPSHOT'
+    
     repositories {
         mavenCentral()
     }
