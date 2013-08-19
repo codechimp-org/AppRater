@@ -55,7 +55,16 @@ public class AppRater {
 		showRateAlertDialog(context, null);
 	}
 
-	/**
+    /**
+     * Call this method directly to go straight to play store listing for rating
+     */
+    public static void rateNow(final Context context) {
+        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri
+                .parse("market://details?id="
+                        + context.getPackageName().toString())));
+    }
+
+    /**
 	 * The meat of the library, actually shows the rate prompt dialog
 	 */
 	private static void showRateAlertDialog(final Context context, final SharedPreferences.Editor editor) {
