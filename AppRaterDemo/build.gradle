@@ -1,14 +1,28 @@
 apply plugin: 'android'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     compile project(':AppRater')
 }
 
 android {
+    compileSdkVersion 18
+    buildToolsVersion "18.0"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 18
+        versionName project.VERSION_NAME
+        versionCode Integer.parseInt(project.VERSION_CODE)        
+    }
+
+    signingConfigs { release }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -16,12 +30,18 @@ android {
             res.srcDirs = ['res']
         }
     }
+}
 
-    compileSdkVersion 17
-    buildToolsVersion "18.0"
 
-    defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 18
-    }
+def Properties props = new Properties()
+props.load(new FileInputStream(file('signing.properties')))
+
+if (props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+        props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+    android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+    android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+    android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+    android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+} else {
+    android.buildTypes.release.signingConfig = null
 }

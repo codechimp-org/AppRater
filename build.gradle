@@ -8,21 +8,17 @@ buildscript {
     }
 }
 
+def isReleaseBuild() {
+    return version.contains("SNAPSHOT") == false
+}
+
 allprojects {
-    group = 'com.github.codechimp-org.apprater'
-    version = '1.0-SNAPSHOT'
-    
+    version = VERSION_NAME
+    group = GROUP
+
     repositories {
         mavenCentral()
     }
-
-    tasks.withType(Compile) {
-        options.encoding = "UTF-8"
-    }
-
-    if (project.hasProperty('libVersion')) {
-        project.version = project.libVersion
-    } else {
-        project.version = 'snapshot'
-    }
 }
+
+apply plugin: 'android-reporting'
