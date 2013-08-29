@@ -1,5 +1,4 @@
-AppRater
-========
+# AppRater
 
 AppRater is a library for Android designed to facilitate easy prompting of users to rate your app within the Google Play store.
 It won't prompt until at least 4 days and 7 uses of the app has passed and if the user chooses to rate later the count will start again.
@@ -16,13 +15,20 @@ If you want to have a "Rate Now" menu option to go straight to your play store l
 
 Try out the demo within this repository.
 
-Translations
-============
+## Gradle
+
+AppRater is now pushed to Maven Central as an AAR, so you just need to add the following dependency to your `build.gradle`.
+    
+    dependencies {
+        compile 'com.github.codechimp-org.apprater:library:1.0.+'
+    }
+
+## Translations
+
 If you would like to help localise this library please contribute to the GetLocalization project located here
 [http://www.getlocalization.com/AppRater/](http://www.getlocalization.com/AppRater/)
 
-Developed By
-============
+## Developed By
 
 Andrew Jackson <andrew@codechimp.org>
 
@@ -31,8 +37,7 @@ Google+ profile:
 
 Adapted from a snippet originally posted [here](http://www.androidsnippets.com/prompt-engaged-users-to-rate-your-app-in-the-android-market-appirater)
 
-License
-=======
+## License
 
     Copyright 2013 Andrew Jackson
 
