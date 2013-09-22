@@ -1,7 +1,4 @@
 <resources>
-
-    <string name="app_name">AppRater</string>
-
     <string name="dialog_title">%s Derecelendir</string>
     <string name="rate_message">Bu uygulamayı beğendiyseniz lütfen derecelendirin. Desteğiniz için teşekkürler.</string>
     <string name="rate">Şimdi</string>

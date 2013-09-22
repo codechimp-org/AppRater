@@ -1,7 +1,4 @@
 <resources>
-
-    <string name="app_name">AppRater</string>
-
     <string name="dialog_title">Оцінити %s</string>
     <string name="rate_message">Якщо Вам подобається цей додаток, будь ласка, оцініть його. Дякуємо за підтримку!</string>
     <string name="rate">Оцінити зараз</string>

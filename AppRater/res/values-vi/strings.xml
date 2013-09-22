@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Bình chọn</string>
-
     <string name="dialog_title">Bình chon cho %s</string>
     <string name="rate_message">Hi, nếu bạn thấy sử dụng ứng dụng này hay, vui lòng dành chút thời gian bình chọn cho chúng tôi bạn nhé. Chúng tôi rất cảm ơn sự nhiệt tình ủng hộ của bạn.</string>
     <string name="rate">Bình chọn ngay!</string>

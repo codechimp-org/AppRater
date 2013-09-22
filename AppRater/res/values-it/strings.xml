@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">AppRater</string>
-
     <string name="dialog_title">Valuta %s</string>
     <string name="rate_message">Se ti piace usare questa applicazione, per favore dedica un momento per valutarla. Grazie per il tuo supporto!</string>
     <string name="rate">Valuta Ora</string>

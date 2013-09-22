@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">AppRater</string>
-
     <string name="dialog_title">Avalie %s</string>
     <string name="rate_message">Se você está gostando deste aplicativo, por favor reserve um momento para avaliá-lo. Obrigado pela ajuda!</string>
     <string name="rate">Avalie Agora</string>
