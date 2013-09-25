@@ -1,0 +1,7 @@
+<resources>
+    <string name="dialog_title">Betygsätt %s</string>
+    <string name="rate_message">Om du gillar den här appen, betygsätt den gärna. Tack för din support!</string>
+    <string name="rate">Betygsätt nu</string>
+    <string name="later">Senare</string>
+    <string name="no_thanks">Nej tack</string>
+</resources>
