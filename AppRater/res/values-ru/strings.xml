@@ -1,0 +1,7 @@
+<resources>
+    <string name="dialog_title">Выставить оценку %s</string>
+    <string name="rate_message">Если вам нравится это приложение, оцените его, пожалуйста. Спасибо за поддержку!</string>
+    <string name="rate">Оценить сейчас</string>
+    <string name="later">Напомнить позже.</string>
+    <string name="no_thanks">Спасибо , но - нет.</string>
+</resources>
