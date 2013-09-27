@@ -20,9 +20,18 @@ public class AppRater {
 
     /**
      * Call this method at the end of your OnCreate method to determine whether
-     * to show the rate prompt
+     * to show the rate prompt using the default day and launch count values
      */
     public static void app_launched(Context context) {
+        app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
+    }
+
+
+    /**
+     * Call this method at the end of your OnCreate method to determine whether
+     * to show the rate prompt
+     */
+    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, 0);
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
             return;
@@ -43,9 +52,9 @@ public class AppRater {
 
         // Wait for at least the number of launches and the number of days used
         // until prompt
-        if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
+        if (launch_count >= launchesUntilPrompt) {
             if (System.currentTimeMillis() >= date_firstLaunch
-                    + (DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000)) {
+                    + (daysUntilPrompt * 24 * 60 * 60 * 1000)) {
                 showRateAlertDialog(context, editor);
             }
         }

@@ -19,6 +19,5 @@ signing.properties
 # Android Studio files
 out/
 build/
-*.iml
 .idea
 

@@ -11,6 +11,8 @@ To use simply add the library to your app and make one call within your onCreate
 
 `AppRater.app_launched(this);`
 
+Optionally you can use the overriden method to specify your own day and launch count parameters.
+
 If you want to have a "Rate Now" menu option to go straight to your play store listing call `AppRater.rateNow(this);` within your menu code.
 
 Try out the demo within this repository.
