@@ -18,6 +18,11 @@ public class AppRater {
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 7;
 
+    //url options
+    // for play store - market://details?id=
+    // for Amazon Store - http://www.amazon.com/gp/mas/dl/android?p=
+    private static String marketLink = "market://details?id=";
+
     /**
      * Call this method at the end of your OnCreate method to determine whether
      * to show the rate prompt using the default day and launch count values
@@ -96,7 +101,7 @@ public class AppRater {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         context.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                .parse("market://details?id="
+                                .parse(marketLink
                                         + context.getPackageName().toString())));
                         if (editor != null) {
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
@@ -131,5 +136,13 @@ public class AppRater {
                 });
 
         builder.show();
+    }
+
+    public static String getMarketLink() {
+        return marketLink;
+    }
+
+    public static void setMarketLink(String marketLink) {
+        AppRater.marketLink = marketLink;
     }
 }
