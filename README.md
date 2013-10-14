@@ -30,6 +30,14 @@ AppRater is now pushed to Maven Central as an AAR, so you just need to add the f
 If you would like to help localise this library please contribute to the GetLocalization project located here
 [http://www.getlocalization.com/AppRater/](http://www.getlocalization.com/AppRater/)
 
+## Contributing Code
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
 ## Developed By
 
 Andrew Jackson <andrew@codechimp.org>
