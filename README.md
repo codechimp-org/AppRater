@@ -15,9 +15,9 @@ Optionally you can use the overriden method to specify your own day and launch c
 
 By default this will link to the Google Play store.  You can optionally set an alternate market by using;
 
-`AppRater.setMarket(new GoogleMarket());
+`AppRater.setMarket(new GoogleMarket());`
 
-`AppRater.setMarket(new AmazonMarket());
+`AppRater.setMarket(new AmazonMarket());`
 
 You can implement your own market, implementing the Market interface and parse your URI.
 
