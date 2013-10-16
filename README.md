@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/codechimp-org/apprater.png?label=ready)](https://waffle.io/codechimp-org/apprater)  
 # AppRater
 
 AppRater is a library for Android designed to facilitate easy prompting of users to rate your app within the Google Play store.
