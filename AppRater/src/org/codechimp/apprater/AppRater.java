@@ -1,5 +1,6 @@
 package org.codechimp.apprater;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -17,6 +18,7 @@ public class AppRater {
 
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 7;
+    private final static boolean USE_BOTH_DAYS_LAUNCHES = true;
 
     /**
      * Call this method at the end of your OnCreate method to determine whether
@@ -51,10 +53,10 @@ public class AppRater {
         }
 
         // Wait for at least the number of launches and the number of days used
-        // until prompt
-        if (launch_count >= launchesUntilPrompt) {
+        // until prompt unless constant USE_BOTH_DAYS_LAUNCHES is set to false
+        if (launch_count >= launchesUntilPrompt  || !USE_BOTH_DAYS_LAUNCHES) {
             if (System.currentTimeMillis() >= date_firstLaunch
-                    + (daysUntilPrompt * 24 * 60 * 60 * 1000)) {
+                    + (daysUntilPrompt * AlarmManager.INTERVAL_DAY)) {
                 showRateAlertDialog(context, editor);
             }
         }
