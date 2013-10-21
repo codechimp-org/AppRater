@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 
 public class AppRater {
     // Preference Constants
@@ -18,9 +19,13 @@ public class AppRater {
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 7;
 
+    private static Market market = new GoogleMarket();
+
     /**
      * Call this method at the end of your OnCreate method to determine whether
      * to show the rate prompt using the default day and launch count values
+     *
+     * @param context
      */
     public static void app_launched(Context context) {
         app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
@@ -30,6 +35,10 @@ public class AppRater {
     /**
      * Call this method at the end of your OnCreate method to determine whether
      * to show the rate prompt
+     *
+     * @param context
+     * @param daysUntilPrompt
+     * @param launchesUntilPrompt
      */
     public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, 0);
@@ -65,6 +74,8 @@ public class AppRater {
     /**
      * Call this method directly if you want to force a rate prompt, useful for
      * testing purposes
+     *
+     * @param context
      */
     public static void showRateDialog(final Context context) {
         showRateAlertDialog(context, null);
@@ -72,11 +83,29 @@ public class AppRater {
 
     /**
      * Call this method directly to go straight to play store listing for rating
+     *
+     * @param context
      */
     public static void rateNow(final Context context) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                .parse("market://details?id="
-                        + context.getPackageName().toString())));
+        context.startActivity(new Intent(Intent.ACTION_VIEW, market.getMarketURI(context)));
+    }
+
+    /**
+     * Set an alternate Market, defaults to Google Play
+     *
+     * @param market
+     */
+    public static void setMarket(Market market) {
+        AppRater.market = market;
+    }
+
+    /**
+     * Get the currently set Market
+     *
+     * @return market
+     */
+    public static Market getMarket() {
+        return market;
     }
 
     /**
@@ -95,9 +124,7 @@ public class AppRater {
         builder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                .parse("market://details?id="
-                                        + context.getPackageName().toString())));
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, market.getMarketURI(context)));
                         if (editor != null) {
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
                             editor.commit();

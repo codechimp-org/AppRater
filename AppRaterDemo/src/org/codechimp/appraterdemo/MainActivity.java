@@ -1,6 +1,8 @@
 package org.codechimp.appraterdemo;
 
+import org.codechimp.apprater.AmazonMarket;
 import org.codechimp.apprater.AppRater;
+import org.codechimp.apprater.GoogleMarket;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,12 +32,17 @@ public class MainActivity extends Activity {
 				AppRater.showRateDialog(v.getContext());
 			}
 		});
-		
 
-		// This will keep a track of when the app was first used and whether to show a prompt
+
+        // Optionally you can set the Market you want to use prior to calling app_launched
+        // If setMarket not called it will default to Google Play
+        // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
+        AppRater.setMarket(new GoogleMarket());
+        // AppRater.setMarket(new AmazonMarket());
+
+        // This will keep a track of when the app was first used and whether to show a prompt
 		// It should be the default implementation of AppRater
-		AppRater.app_launched(this);
-
+        AppRater.app_launched(this);
 	}
 
     @Override
