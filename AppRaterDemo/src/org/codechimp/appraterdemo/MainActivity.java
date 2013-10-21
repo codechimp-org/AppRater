@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
         // Optionally you can set the Market you want to use prior to calling app_launched
         // If setMarket not called it will default to Google Play
         // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
-        AppRater.setMarket(new GoogleMarket());
+        // AppRater.setMarket(new GoogleMarket());
         // AppRater.setMarket(new AmazonMarket());
 
         // This will keep a track of when the app was first used and whether to show a prompt
