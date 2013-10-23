@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">App Rater</string>
     <string name="dialog_title">قيم %s</string>
     <string name="rate_message">اذا استمتعت باستخدام التطبيق الرجاء تقيمه في المتجر... شكرا للدعم!</string>
     <string name="rate">قيمه الان</string>
