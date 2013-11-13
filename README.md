@@ -51,7 +51,7 @@ If you would like to help localise this library please contribute to the GetLoca
 Andrew Jackson <andrew@codechimp.org>
 
 Google+ profile: 
-[https://plus.google.com/109496301003141993140](https://plus.google.com/109496301003141993140)
+[https://plus.google.com/+AndrewJacksonUK](https://plus.google.com/+AndrewJacksonUK)
 
 Adapted from a snippet originally posted [here](http://www.androidsnippets.com/prompt-engaged-users-to-rate-your-app-in-the-android-market-appirater)
 
