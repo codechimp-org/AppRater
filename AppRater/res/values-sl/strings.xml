@@ -1,0 +1,7 @@
+<resources>
+    <string name="dialog_title">Oceni %s</string>
+    <string name="rate_message">Če ti je aplikacija všeč, jo prosim oceni. Hvala za tvojo podporo!</string>
+    <string name="rate">Oceni sedaj</string>
+    <string name="later">Kasneje</string>
+    <string name="no_thanks">Ne hvala</string>
+</resources>
