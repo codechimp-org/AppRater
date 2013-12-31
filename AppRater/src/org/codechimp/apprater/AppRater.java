@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.util.Log;
 
 public class AppRater {
     // Preference Constants
@@ -41,7 +39,7 @@ public class AppRater {
      * @param launchesUntilPrompt
      */
     public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, 0);
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
             return;
         }
