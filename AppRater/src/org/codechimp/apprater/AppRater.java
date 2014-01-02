@@ -6,8 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.util.Log;
+import android.os.Build;
 
 public class AppRater {
     // Preference Constants
@@ -41,7 +40,7 @@ public class AppRater {
      * @param launchesUntilPrompt
      */
     public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, 0);
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
             return;
         }
@@ -68,7 +67,7 @@ public class AppRater {
             }
         }
 
-        editor.commit();
+        commitOrApply(editor);
     }
 
     /**
@@ -127,7 +126,7 @@ public class AppRater {
                         context.startActivity(new Intent(Intent.ACTION_VIEW, market.getMarketURI(context)));
                         if (editor != null) {
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                            editor.commit();
+                            commitOrApply(editor);
                         }
 
                         dialog.dismiss();
@@ -140,7 +139,7 @@ public class AppRater {
                         if (editor != null) {
                             Long date_firstLaunch = System.currentTimeMillis();
                             editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-                            editor.commit();
+                            commitOrApply(editor);
                         }
                         dialog.dismiss();
                     }
@@ -151,12 +150,20 @@ public class AppRater {
                     public void onClick(DialogInterface dialog, int id) {
                         if (editor != null) {
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                            editor.commit();
+                            commitOrApply(editor);
                         }
                         dialog.dismiss();
                     }
                 });
 
         builder.show();
+    }
+
+    private static void commitOrApply(SharedPreferences.Editor editor) {
+        if (Build.VERSION.SDK_INT > 8) {
+            editor.apply();
+        } else {
+            editor.commit();
+        }
     }
 }
