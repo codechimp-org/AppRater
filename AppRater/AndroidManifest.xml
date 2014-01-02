@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.codechimp.apprater"
-    android:versionCode="19"
-    android:versionName="1.0.9" >
+    android:versionCode="20"
+    android:versionName="1.0.10" >
 
     <uses-sdk
         android:minSdkVersion="8"
