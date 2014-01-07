@@ -77,3 +77,5 @@ Adapted from a snippet originally posted [here](http://www.androidsnippets.com/p
 
  [1]: https://raw.github.com/codechimp-org/AppRater/master/Screenshots/demo-dark.png
  [2]: https://raw.github.com/codechimp-org/AppRater/master/Screenshots/demo-light.png
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/ff88e182f57b4476b37f9ef71d95a466 "githalytics.com")](http://githalytics.com/codechimp-org/AppRater)
