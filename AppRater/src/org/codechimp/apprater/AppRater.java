@@ -116,11 +116,11 @@ public class AppRater {
         Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(String.format(
                 context.getString(R.string.dialog_title),
-                getAppName(context)));
+                getApplicationName(context)));
 
         builder.setMessage(String.format(
                 context.getString(R.string.rate_message),
-                getAppName(context)));
+                getApplicationName(context)));
 
         builder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
@@ -169,7 +169,7 @@ public class AppRater {
         }
     }
 
-    private static String getAppName(Context context) {
+    private static String getApplicationName(Context context) {
         PackageManager packageManager = context.getPackageManager();
         ApplicationInfo applicationInfo = null;
         try {
