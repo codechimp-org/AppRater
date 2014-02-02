@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 public class AppRater {
@@ -114,11 +116,11 @@ public class AppRater {
         Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(String.format(
                 context.getString(R.string.dialog_title),
-                context.getString(R.string.app_name)));
+                getAppName(context)));
 
         builder.setMessage(String.format(
                 context.getString(R.string.rate_message),
-                context.getString(R.string.app_name)));
+                getAppName(context)));
 
         builder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
@@ -165,5 +167,15 @@ public class AppRater {
         } else {
             editor.commit();
         }
+    }
+
+    private static String getAppName(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = packageManager.getApplicationInfo(context.getApplicationInfo().packageName, 0);
+        } catch (final PackageManager.NameNotFoundException e) {
+        }
+        return (String) (applicationInfo != null ? packageManager.getApplicationLabel(applicationInfo) : "");
     }
 }
