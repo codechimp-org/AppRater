@@ -1,5 +1,7 @@
 package org.codechimp.apprater;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -19,6 +21,8 @@ public class AppRater {
 
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 7;
+    private static boolean isDark;
+	private static boolean themeSetted;
 
     private static Market market = new GoogleMarket();
 
@@ -108,12 +112,37 @@ public class AppRater {
     public static Market getMarket() {
         return market;
     }
+    /**
+     * Sets dialog theme to dark
+     */
+    @TargetApi(11)
+    public static void setDarkTheme(){
+    	isDark = true;
+    	themeSetted = true;
+    }
+    /**
+     * Sets dialog theme to light
+     */
+    @TargetApi(11)
+    public static void setLigthTheme(){
+    	isDark = false;
+    	themeSetted = true;
+    }
 
     /**
      * The meat of the library, actually shows the rate prompt dialog
      */
+    @SuppressLint("NewApi") 
     private static void showRateAlertDialog(final Context context, final SharedPreferences.Editor editor) {
-        Builder builder = new AlertDialog.Builder(context);
+    	Builder builder = new AlertDialog.Builder(context);
+    	if(themeSetted && isDark && Build.VERSION.SDK_INT >= 11 ){
+    		builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_DARK);
+    	}else
+    	if(themeSetted && !isDark && Build.VERSION.SDK_INT >= 11){
+    		builder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_LIGHT);
+    	}else{
+    		builder = new AlertDialog.Builder(context);
+    	}
         builder.setTitle(String.format(
                 context.getString(R.string.dialog_title),
                 getApplicationName(context)));
@@ -160,7 +189,7 @@ public class AppRater {
 
         builder.show();
     }
-
+    @SuppressLint("NewApi") 
     private static void commitOrApply(SharedPreferences.Editor editor) {
         if (Build.VERSION.SDK_INT > 8) {
             editor.apply();
