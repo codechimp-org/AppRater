@@ -28,6 +28,7 @@ public class AppRater {
     private  static int LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = 7;
     private static boolean isDark;
 	private static boolean themeSetted;
+	private static boolean isNoButtonVisible=true;
 
     private static Market market = new GoogleMarket();
     /**
@@ -45,6 +46,13 @@ public class AppRater {
 
  		LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER=launchesUntilPrompt;
  	}
+ 	/**
+	 * decides if No thanks button appear in dialog or not 
+	 * @param isNoButtonVisible
+	 */
+	public static void setDontReminButtonVisible(boolean isNoButtonVisible){
+		AppRater.isNoButtonVisible=isNoButtonVisible;
+	}
     /**
      * Call this method at the end of your OnCreate method to determine whether
      * to show the rate prompt using the specified or default  day, launch count values and checking if
@@ -207,25 +215,32 @@ public class AppRater {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (editor != null) {
-                            Long date_firstLaunch = System.currentTimeMillis();
+                        	Long date_firstLaunch = System.currentTimeMillis();
                             editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+                            editor.putLong(PREF_LAUNCH_COUNT, 0);
+                            editor.putBoolean(PREF_REMIND_LATER, true);
+                            editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
                             commitOrApply(editor);
                         }
                         dialog.dismiss();
                     }
                 });
-
+        if(isNoButtonVisible){
         builder.setNegativeButton(context.getString(R.string.no_thanks),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (editor != null) {
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
+                            editor.putBoolean(PREF_REMIND_LATER, false);
+                            Long date_firstLaunch = System.currentTimeMillis();
+                            editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+                            editor.putLong(PREF_LAUNCH_COUNT, 0);
                             commitOrApply(editor);
                         }
                         dialog.dismiss();
                     }
                 });
-
+        }
         builder.show();
     }
     @SuppressLint("NewApi") 
