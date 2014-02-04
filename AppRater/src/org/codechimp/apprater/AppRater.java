@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 
 public class AppRater {
@@ -19,6 +20,7 @@ public class AppRater {
     private final static String PREF_FIRST_LAUNCHED = "date_firstlaunch";
     private final static String PREF_DONT_SHOW_AGAIN = "dontshowagain";
     private final static String PREF_REMIND_LATER="remindmelater";
+    private final static String PREF_APP_VERSION="app_version";
 
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 7;
@@ -45,13 +47,29 @@ public class AppRater {
  	}
     /**
      * Call this method at the end of your OnCreate method to determine whether
-     * to show the rate prompt using the default day and launch count values
+     * to show the rate prompt using the specified or default  day, launch count values and checking if
+     * the version is changed or not
      *
      * @param context
      */
     public static void app_launched(Context context) {
     	SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        try {
+			int versionCode = context.getPackageManager()
+				    .getPackageInfo(context.getPackageName(), 0).versionCode;
+			if(versionCode!=(prefs.getInt(PREF_APP_VERSION,-1))){
+				editor.putInt(PREF_APP_VERSION, versionCode);
+				editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
+				editor.putBoolean(PREF_REMIND_LATER, false);
+				editor.putLong(PREF_LAUNCH_COUNT, 0);
+				Long date_firstLaunch = System.currentTimeMillis();
+	            editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+	            commitOrApply(editor);
+			}
+		} catch (NameNotFoundException e) {
+			// ignored
+		}
     	if(prefs.getBoolean(PREF_REMIND_LATER, false))
             app_launched(context, DAYS_UNTIL_PROMPT_FOR_REMIND_LATER, LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER);
         	 else
