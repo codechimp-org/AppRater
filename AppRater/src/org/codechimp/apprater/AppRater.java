@@ -18,14 +18,31 @@ public class AppRater {
     private final static String PREF_LAUNCH_COUNT = "launch_count";
     private final static String PREF_FIRST_LAUNCHED = "date_firstlaunch";
     private final static String PREF_DONT_SHOW_AGAIN = "dontshowagain";
+    private final static String PREF_REMIND_LATER="remindmelater";
 
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 7;
+    private  static int DAYS_UNTIL_PROMPT_FOR_REMIND_LATER = 3;
+    private  static int LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = 7;
     private static boolean isDark;
 	private static boolean themeSetted;
 
     private static Market market = new GoogleMarket();
+    /**
+     * sets number of day until rating dialog pops up for next time when remind me later option is chosen 
+     * @param daysUntilPromt
+     */
+ 	public static void setNumDaysForRemindLater(int daysUntilPromt){
+ 		DAYS_UNTIL_PROMPT_FOR_REMIND_LATER=daysUntilPromt;
+ 	}
+ 	/**
+ 	 * sets the number of launches until the rating dialog pops up for next time when remind me later option is chosen
+ 	 * @param launchesUntilPrompt
+ 	 */
+ 	public static void setNumLaunchesForRemindLater(int launchesUntilPrompt){
 
+ 		LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER=launchesUntilPrompt;
+ 	}
     /**
      * Call this method at the end of your OnCreate method to determine whether
      * to show the rate prompt using the default day and launch count values
@@ -33,8 +50,12 @@ public class AppRater {
      * @param context
      */
     public static void app_launched(Context context) {
-        app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
-    }
+    	SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+    	if(prefs.getBoolean(PREF_REMIND_LATER, false))
+            app_launched(context, DAYS_UNTIL_PROMPT_FOR_REMIND_LATER, LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER);
+        	 else
+        	app_launched(context,DAYS_UNTIL_PROMPT,LAUNCHES_UNTIL_PROMPT);    }
 
 
     /**
