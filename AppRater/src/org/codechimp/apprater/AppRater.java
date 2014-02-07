@@ -96,14 +96,12 @@ public class AppRater {
 			if (!ratingInfo.getApplicationVersionName().equals(prefs.getString(PREF_APP_VERSION_NAME,"none"))) {
 				editor.putString(PREF_APP_VERSION_NAME, ratingInfo.getApplicationVersionName());
 				resetData(context);commitOrApply(editor);
-				Toast.makeText(context, "data reseted by name check"+prefs.getString(PREF_APP_VERSION_NAME,"none"), Toast.LENGTH_LONG).show();
 			}
 		}
 		if (isVersionCodeCheckEnabled) {			
 			if (ratingInfo.getApplicationVersionCode() != (prefs.getInt(PREF_APP_VERSION_CODE, -1))) {
 				editor.putInt(PREF_APP_VERSION_CODE, ratingInfo.getApplicationVersionCode());
 				resetData(context);commitOrApply(editor);
-				Toast.makeText(context, "data reseted by code check"+prefs.getInt(PREF_APP_VERSION_CODE, -1), Toast.LENGTH_LONG).show();
 			}
 		}
 		if (prefs.getBoolean(PREF_REMIND_LATER, false))
