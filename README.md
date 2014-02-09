@@ -11,7 +11,12 @@ To use simply add the library to your app and make one call within your onCreate
 
 `AppRater.app_launched(this);`
 
-Optionally you can use the overriden method to specify your own day and launch count parameters.
+There are several options you can also use to change the default behavior.
+
+You can use the overriden method to specify your own day and launch count parameters.
+`setVersionCodeCheckEnabled` or `setVersionNameCheckEnabled` enable version checking, which will re-enable the prompt count if a new version is installed.
+`isNoButtonVisible` will disable the No Thanks button, forcing the user to either rate or prompt later.
+`setDarkTheme` and `setLightTheme` enable manual control over the theme the dialog uses, overriding your application default.
 
 By default this will link to the Google Play store.  You can optionally set an alternate market by using;
 
