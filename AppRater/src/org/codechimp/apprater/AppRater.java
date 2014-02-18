@@ -159,7 +159,15 @@ public class AppRater {
 	 * @param context
 	 */
 	public static void rateNow(final Context context) {
-		context.startActivity(new Intent(Intent.ACTION_VIEW, market.getMarketURI(context)));
+        try {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, market.getMarketURI(context)));
+        } catch (ActivityNotFoundException activityNotFoundException1) {
+            try {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, market.getNewMarketURI(context)));
+            } catch (ActivityNotFoundException activityNotFoundException2) {
+                Log.d(AppRater.class.getSimpleName(), "mmm whaaat?");
+            }
+        }
 	}
 
 	/**
