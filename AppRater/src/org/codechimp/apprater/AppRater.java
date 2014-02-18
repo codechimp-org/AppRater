@@ -89,27 +89,25 @@ public class AppRater {
 	 * @param context
 	 */
 	public static void app_launched(Context context) {
-		SharedPreferences prefs = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = prefs.edit();
-		ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
-		if (isVersionNameCheckEnabled) {
-			if (!ratingInfo.getApplicationVersionName().equals(prefs.getString(PREF_APP_VERSION_NAME,"none"))) {
-				editor.putString(PREF_APP_VERSION_NAME, ratingInfo.getApplicationVersionName());
-				resetData(context);commitOrApply(editor);
-			}
-		}
-		if (isVersionCodeCheckEnabled) {			
-			if (ratingInfo.getApplicationVersionCode() != (prefs.getInt(PREF_APP_VERSION_CODE, -1))) {
-				editor.putInt(PREF_APP_VERSION_CODE, ratingInfo.getApplicationVersionCode());
-				resetData(context);commitOrApply(editor);
-			}
-		}
-		if (prefs.getBoolean(PREF_REMIND_LATER, false))
-			app_launched(context, DAYS_UNTIL_PROMPT_FOR_REMIND_LATER,LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER);
-		else
 			app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
 	}
 
+	/**
+	 * Call this method at the end of your OnCreate method to determine whether
+	 * to show the rate prompt using the specified or default day, launch count
+	 * values with additional day and launch parameter for remind me later option
+	 *  and checking if the version is changed or not
+	 * @param context
+	 * @param daysUntilPrompt
+	 * @param launchesUntilPrompt
+	 * @param daysForRemind
+	 * @param launchesForRemind
+	 */
+	public static void app_launched(Context context, int daysUntilPrompt,int launchesUntilPrompt,int daysForRemind,int launchesForRemind) {
+		setNumDaysForRemindLater(daysForRemind);
+		setNumLaunchesForRemindLater(launchesForRemind);
+		app_launched(context, daysUntilPrompt,launchesUntilPrompt);
+}
 	/**
 	 * Call this method at the end of your OnCreate method to determine whether
 	 * to show the rate prompt
@@ -120,10 +118,36 @@ public class AppRater {
 	 */
 	public static void app_launched(Context context, int daysUntilPrompt,int launchesUntilPrompt) {
 		SharedPreferences prefs = context.getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
+		int days;
+		int launchs;
+		if (isVersionNameCheckEnabled) {
+			if (!ratingInfo.getApplicationVersionName().equals(prefs.getString(PREF_APP_VERSION_NAME,"none"))) {
+				editor.putString(PREF_APP_VERSION_NAME, ratingInfo.getApplicationVersionName());
+				resetData(context);
+				commitOrApply(editor);
+			}
+		}
+		if (isVersionCodeCheckEnabled) {			
+			if (ratingInfo.getApplicationVersionCode() != (prefs.getInt(PREF_APP_VERSION_CODE, -1))) {
+				editor.putInt(PREF_APP_VERSION_CODE, ratingInfo.getApplicationVersionCode());
+				resetData(context);
+				commitOrApply(editor);
+			}
+		}
 		if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
 			return;
 		}
-		SharedPreferences.Editor editor = prefs.edit();
+		else if(prefs.getBoolean(PREF_REMIND_LATER, false)){
+			days=DAYS_UNTIL_PROMPT_FOR_REMIND_LATER;
+		    launchs=LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER;
+		}
+		else{
+			days=daysUntilPrompt;
+			launchs=launchesUntilPrompt;
+		}
+		
 		// Increment launch counter
 		long launch_count = prefs.getLong(PREF_LAUNCH_COUNT, 0) + 1;
 		editor.putLong(PREF_LAUNCH_COUNT, launch_count);
@@ -135,8 +159,8 @@ public class AppRater {
 		}
 		// Wait for at least the number of launches and the number of days used
 		// until prompt
-		if (launch_count >= launchesUntilPrompt) {
-			if (System.currentTimeMillis() >= date_firstLaunch + (daysUntilPrompt *24*60*60*1000)) {
+		if (launch_count >= launchs) {
+			if (System.currentTimeMillis() >= date_firstLaunch + (days *24*60*601000)) {
 				showRateAlertDialog(context, editor);
 			}
 		}
