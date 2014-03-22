@@ -17,6 +17,7 @@ local.properties
 signing.properties
 
 # Android Studio files
+*.iml
 out/
 build/
 .idea
