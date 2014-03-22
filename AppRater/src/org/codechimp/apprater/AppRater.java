@@ -159,7 +159,7 @@ public class AppRater {
             date_firstLaunch = System.currentTimeMillis();
             editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
         }
-        // Wait for at least the number of launches and the number of days used
+        // Wait for at least the number of launches or the number of days used
         // until prompt
         if (launch_count >= launchs) {
             if (System.currentTimeMillis() >= date_firstLaunch + (days * 24 * 60 * 601000)) {
@@ -242,7 +242,7 @@ public class AppRater {
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
         builder.setTitle(String.format(context.getString(R.string.dialog_title), ratingInfo.getApplicationName()));
 
-        builder.setMessage(String.format(context.getString(R.string.rate_message), ratingInfo.getApplicationName()));
+        builder.setMessage(context.getString(R.string.rate_message));
 
         builder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
