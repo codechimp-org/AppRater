@@ -162,7 +162,7 @@ public class AppRater {
         // Wait for at least the number of launches or the number of days used
         // until prompt
         if (launch_count >= launches) {
-            if (System.currentTimeMillis() >= date_firstLaunch + (days * 24 * 60 * 601000)) {
+            if (System.currentTimeMillis() >= date_firstLaunch + (days * 24 * 60 * 60 * 1000)) {
                 showRateAlertDialog(context, editor);
             }
         }
