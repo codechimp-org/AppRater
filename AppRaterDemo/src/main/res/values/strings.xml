@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AppRaterDemo</string>        
+    <string name="details">By default a prompt will appear after 3 days and the app must have been activated at least 7 times.</string>
+	<string name="force_rate_prompt">Force Rate Prompt</string>
+    <string name="rate_now">Rate Now</string>
+</resources>

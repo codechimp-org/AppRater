@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">Noter %s</string>
+    <string name="rate_message">Si vous aimez cette application, s\'il vous plait prenez un moment pour la noter. Merci pour votre soutien!</string>
+    <string name="rate">Noter</string>
+    <string name="later">Plus tard</string>
+    <string name="no_thanks">Non merci</string>
+</resources>

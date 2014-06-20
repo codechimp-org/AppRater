@@ -1,47 +1,65 @@
+apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
 
-dependencies {
-    compile project(':AppRater')
+repositories {
+    mavenCentral()
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 18
         versionName project.VERSION_NAME
-        versionCode Integer.parseInt(project.VERSION_CODE)        
+        versionCode Integer.parseInt(project.VERSION_CODE)
     }
 
-    signingConfigs { release }
+    signingConfigs {
+        release
+    }
 
     buildTypes {
-        release {
-            signingConfig signingConfigs.release
+        if (isReleaseBuild()) {
+            release {
+                signingConfig signingConfigs.release
+            }
         }
-    }
 
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            res.srcDirs = ['res']
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
         }
     }
+}
+
+dependencies {
+    compile project(':AppRater')
 }
 
 
 def Properties props = new Properties()
-props.load(new FileInputStream(file('signing.properties')))
+def propFile = file('../../signing.properties')
+if (propFile.canRead()){
+    props.load(new FileInputStream(propFile))
 
-if (props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
-        props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-    android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
-    android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
-    android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
-    android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
-} else {
+    if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+            props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+
+        println 'RELEASE BUILD SIGNING'
+
+        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+    } else {
+        println 'RELEASE BUILD NOT FOUND SIGNING PROPERTIES'
+
+        android.buildTypes.release.signingConfig = null
+    }
+}else {
+    println 'RELEASE BUILD NOT FOUND SIGNING FILE'
     android.buildTypes.release.signingConfig = null
 }
+
