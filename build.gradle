@@ -3,10 +3,8 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.11.+'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
     }
 }
 
@@ -27,5 +25,3 @@ allprojects {
         mavenCentral()
     }
 }
-
-apply plugin: 'android-reporting'
