@@ -32,6 +32,7 @@ public class AppRater {
     private static boolean hideNoButton;
     private static boolean isVersionNameCheckEnabled;
     private static boolean isVersionCodeCheckEnabled;
+    private static boolean isCancelable = true;
 
     private static Market market = new GoogleMarket();
 
@@ -81,6 +82,15 @@ public class AppRater {
      */
     public static void setDontRemindButtonVisible(boolean isNoButtonVisible) {
         AppRater.hideNoButton = isNoButtonVisible;
+    }
+
+    /**
+     * sets whether the rating dialog is cancelable or not, default is true.
+     *
+     * @param cancelable
+     */
+    public static void setCancelable(boolean cancelable) {
+        isCancelable = cancelable;
     }
 
     /**
@@ -242,6 +252,8 @@ public class AppRater {
 
         builder.setMessage(context.getString(R.string.rate_message));
 
+        builder.setCancelable(isCancelable);
+
         builder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -306,4 +318,4 @@ public class AppRater {
         editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
         commitOrApply(editor);
     }
-}
+}
