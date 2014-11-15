@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">%s 평가하기</string>
+    <string name="rate_message">어플이 마음에 드셨나요? 잠시 시간을 내어 평가해주세요. 감사합니다!</string>
+    <string name="rate">지금 평가하기</string>
+    <string name="later">나중에</string>
+    <string name="no_thanks">아니오</string>
+</resources>
