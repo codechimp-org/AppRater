@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">Peringkat %s</string>
+    <string name="rate_message">Kalian menyukainya? Kami juga! Tolong luangkan sedikit waktumu memberi nilai untuk aplikasi ini. Terima kasih atas bantuannya!</string>
+    <string name="rate">Berikan nilaimu sekarang</string>
+    <string name="later">Nanti</string>
+    <string name="no_thanks">Tidak, terima kasih</string>
+</resources>

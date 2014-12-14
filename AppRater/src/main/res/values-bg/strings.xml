@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">Оцени %s</string>
+    <string name="rate_message">Ако харесвате това приложение, моля оценете го. Благодарим за вашето съдействие!</string>
+    <string name="rate">Оцени Сега</string>
+    <string name="later">По-късно</string>
+    <string name="no_thanks">Не, благодаря</string>
+</resources>
