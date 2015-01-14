@@ -11,22 +11,30 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
+
+import java.lang.Long;
+import java.lang.System;
 
 public class AppRater {
     // Preference Constants
     private final static String PREF_NAME = "apprater";
     private final static String PREF_LAUNCH_COUNT = "launch_count";
+    private final static String PREF_SIGNIFICANT_EVENT_COUNT = "significant_event_count";
     private final static String PREF_FIRST_LAUNCHED = "date_firstlaunch";
     private final static String PREF_DONT_SHOW_AGAIN = "dontshowagain";
     private final static String PREF_REMIND_LATER = "remindmelater";
+    private final static String PREF_DAYS_UNTIL = "pref_days_until";
+    private final static String PREF_LAUNCHES_UNTIL = "pref_launches_until";
+    private final static String PREF_EVENTS_UNTIL = "pref_events_until";
     private final static String PREF_APP_VERSION_NAME = "app_version_name";
     private final static String PREF_APP_VERSION_CODE = "app_version_code";
 
-    private final static int DAYS_UNTIL_PROMPT = 3;
-    private final static int LAUNCHES_UNTIL_PROMPT = 7;
+    public final static int DAYS_UNTIL_PROMPT = 3;
+    public final static int LAUNCHES_UNTIL_PROMPT = 7;
+    public final static int SIGNIFICANT_EVENT_UNTIL_PROMPT = -1;
     private static int DAYS_UNTIL_PROMPT_FOR_REMIND_LATER = 3;
     private static int LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = 7;
+    private static int SIGNIFICANT_EVENT_UNTIL_PROMPT_FOR_REMIND_LATER = -1;
     private static boolean isDark;
     private static boolean themeSet;
     private static boolean hideNoButton;
@@ -76,6 +84,16 @@ public class AppRater {
     }
 
     /**
+     * sets number of significant events until rating dialog pops up for next time
+     * when remind me later option is chosen
+     *
+     * @param significantEventUntilPrompt
+     */
+    public static void setSignificantEventForRemindLater(int significantEventUntilPrompt) {
+        SIGNIFICANT_EVENT_UNTIL_PROMPT_FOR_REMIND_LATER = significantEventUntilPrompt;
+    }
+
+    /**
      * decides if No thanks button appear in dialog or not
      *
      * @param isNoButtonVisible
@@ -101,7 +119,7 @@ public class AppRater {
      * @param context
      */
     public static void app_launched(Context context) {
-        app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
+        app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT, SIGNIFICANT_EVENT_UNTIL_PROMPT);
     }
 
     /**
@@ -113,13 +131,16 @@ public class AppRater {
      * @param context
      * @param daysUntilPrompt
      * @param launchesUntilPrompt
+     * @param significantEventUntilPrompt
      * @param daysForRemind
      * @param launchesForRemind
+     * @param significantEventForRemind
      */
-    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt, int daysForRemind, int launchesForRemind) {
+    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt, int significantEventUntilPrompt, int daysForRemind, int launchesForRemind, int significantEventForRemind) {
         setNumDaysForRemindLater(daysForRemind);
         setNumLaunchesForRemindLater(launchesForRemind);
-        app_launched(context, daysUntilPrompt, launchesUntilPrompt);
+        setSignificantEventForRemindLater(significantEventForRemind);
+        app_launched(context, daysUntilPrompt, launchesUntilPrompt, significantEventUntilPrompt);
     }
 
     /**
@@ -129,13 +150,12 @@ public class AppRater {
      * @param context
      * @param daysUntilPrompt
      * @param launchesUntilPrompt
+     * @param significantEventUntilPrompt
      */
-    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
+    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt, int significantEventUntilPrompt) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
-        int days;
-        int launches;
         if (isVersionNameCheckEnabled) {
             if (!ratingInfo.getApplicationVersionName().equals(prefs.getString(PREF_APP_VERSION_NAME, "none"))) {
                 editor.putString(PREF_APP_VERSION_NAME, ratingInfo.getApplicationVersionName());
@@ -150,15 +170,6 @@ public class AppRater {
                 commitOrApply(editor);
             }
         }
-        if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
-            return;
-        } else if (prefs.getBoolean(PREF_REMIND_LATER, false)) {
-            days = DAYS_UNTIL_PROMPT_FOR_REMIND_LATER;
-            launches = LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER;
-        } else {
-            days = daysUntilPrompt;
-            launches = launchesUntilPrompt;
-        }
 
         // Increment launch counter
         long launch_count = prefs.getLong(PREF_LAUNCH_COUNT, 0) + 1;
@@ -169,12 +180,54 @@ public class AppRater {
             date_firstLaunch = System.currentTimeMillis();
             editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
         }
+
+        int days;
+        int launches;
+        int significantEvents;
+
+        if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
+            return;
+        } else if (prefs.getBoolean(PREF_REMIND_LATER, false)) {
+            days = DAYS_UNTIL_PROMPT_FOR_REMIND_LATER;
+            launches = LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER;
+            significantEvents = SIGNIFICANT_EVENT_UNTIL_PROMPT_FOR_REMIND_LATER;
+        } else {
+            days = daysUntilPrompt;
+            launches = launchesUntilPrompt;
+            significantEvents = significantEventUntilPrompt;
+        }
+
+        editor.putLong(PREF_DAYS_UNTIL, days);
+        editor.putLong(PREF_LAUNCHES_UNTIL, launches);
+        editor.putLong(PREF_EVENTS_UNTIL, significantEvents);
+
+        commitOrApply(editor);
+
+        showRateAlertIfIsNeeded(context);
+
+    }
+
+    private static void showRateAlertIfIsNeeded(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        long days = prefs.getLong(PREF_DAYS_UNTIL, 0);
+        long launches = prefs.getLong(PREF_LAUNCHES_UNTIL, 0);
+        long significantEvents = prefs.getLong(PREF_EVENTS_UNTIL, 0);
+
+        // Get launch counter
+        long launch_count = prefs.getLong(PREF_LAUNCH_COUNT, 0);
+        // Get date of first launch
+        Long date_firstLaunch = prefs.getLong(PREF_FIRST_LAUNCHED, 0);
+        // Get Significant events counter
+        long significant_events_count = prefs.getLong(PREF_SIGNIFICANT_EVENT_COUNT, 0);
         // Wait for at least the number of launches or the number of days used
         // until prompt
-        if (launch_count >= launches || (System.currentTimeMillis() >= date_firstLaunch + (days * 24 * 60 * 60 * 1000))) {
+        if (launch_count >= launches
+                || (System.currentTimeMillis() >= date_firstLaunch + (days * 24 * 60 * 60 * 1000))
+                || (significantEvents > 0 && significant_events_count >= significantEvents)) {
             showRateAlertDialog(context, editor);
         }
-        commitOrApply(editor);
     }
 
     /**
@@ -273,6 +326,7 @@ public class AppRater {
                             Long date_firstLaunch = System.currentTimeMillis();
                             editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
                             editor.putLong(PREF_LAUNCH_COUNT, 0);
+                            editor.putLong(PREF_SIGNIFICANT_EVENT_COUNT, 0);
                             editor.putBoolean(PREF_REMIND_LATER, true);
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
                             commitOrApply(editor);
@@ -290,6 +344,7 @@ public class AppRater {
                                 long date_firstLaunch = System.currentTimeMillis();
                                 editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
                                 editor.putLong(PREF_LAUNCH_COUNT, 0);
+                                editor.putLong(PREF_SIGNIFICANT_EVENT_COUNT, 0);
                                 commitOrApply(editor);
                             }
                             dialog.dismiss();
@@ -316,6 +371,16 @@ public class AppRater {
         editor.putLong(PREF_LAUNCH_COUNT, 0);
         long date_firstLaunch = System.currentTimeMillis();
         editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+        editor.putLong(PREF_SIGNIFICANT_EVENT_COUNT, 0);
         commitOrApply(editor);
+    }
+
+    public  static void userDidSignificantEvent(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        long significant_events_count = prefs.getLong(PREF_SIGNIFICANT_EVENT_COUNT, 0) + 1;
+        editor.putLong(PREF_SIGNIFICANT_EVENT_COUNT, significant_events_count);
+        commitOrApply(editor);
+        showRateAlertIfIsNeeded(context);
     }
 }
