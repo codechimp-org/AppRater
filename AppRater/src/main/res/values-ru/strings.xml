@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dialog_title">Оценить %s</string>
     <string name="rate_message">Если вам нравится это приложение, оцените его, пожалуйста. Спасибо за поддержку!</string>
