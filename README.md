@@ -40,8 +40,7 @@ AppRater is now pushed to Maven Central as an AAR, so you just need to add the f
 
 ## Translations
 
-If you would like to help localise this library please contribute to the GetLocalization project located here
-[http://www.getlocalization.com/AppRater/](http://www.getlocalization.com/AppRater/)
+If you would like to help localise this library please fork the project, create and verify your language files, then create a pull request.
 
 ## Contributing Code
 
