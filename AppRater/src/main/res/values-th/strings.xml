@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">ให้คะแนน %s</string>
+    <string name="rate_message">ถ้าคุณคิดว่าแอพนี้มันเจ๋ง ช่วยสละเวลาเพื่อให้คะแนนมันหน่อยนะ ขอบคุณมากที่ช่วยเรา</string>
+    <string name="rate">ให้คะแนน</string>
+    <string name="later">ไว้ทีหลัง</string>
+    <string name="no_thanks">ไม่ละ ขอบคุณ</string>
+</resources>
