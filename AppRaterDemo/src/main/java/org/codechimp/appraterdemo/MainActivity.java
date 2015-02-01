@@ -15,6 +15,7 @@ import android.app.Activity;
 
 public class MainActivity extends Activity {
 
+    private AppRater appRater = new AppRater.Builder().build();
 	private Button buttonTest;
 
 	@Override
@@ -29,7 +30,7 @@ public class MainActivity extends Activity {
 				
 				// This forces display of the rate prompt.
 				// It should only be used for testing purposes
-				AppRater.showRateDialog(v.getContext());
+                appRater.showRateDialog(v.getContext());
 			}
 		});
 
@@ -42,7 +43,7 @@ public class MainActivity extends Activity {
 
         // This will keep a track of when the app was first used and whether to show a prompt
 		// It should be the default implementation of AppRater
-        AppRater.app_launched(this);
+        appRater.appLaunched(this);
 	}
 
     @Override
@@ -57,7 +58,7 @@ public class MainActivity extends Activity {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case (R.id.menu_ratenow): {
-                AppRater.rateNow(this);
+                appRater.rateNow(this);
                 return true;
             }
         }
