@@ -156,7 +156,7 @@ public class AppRater {
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
             return;
         } else if (prefs.getBoolean(PREF_REMIND_LATER, false)) {
-            days = daysUntilPrompt;
+            days = daysUntilPromptForRemindLater;
             launches = launchesUntilPromptForRemindLater;
         } else {
             days = daysUntilPrompt;
