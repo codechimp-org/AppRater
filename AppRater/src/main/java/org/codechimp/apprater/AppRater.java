@@ -115,6 +115,10 @@ public class AppRater {
         }
     }
 
+    public AppRater() {
+
+    }
+
     public AppRater(Builder builder) {
         this.daysUntilPrompt = builder.daysUntilPrompt;
         this.launchesUntilPrompt = builder.launchesUntilPrompt;
@@ -209,7 +213,7 @@ public class AppRater {
      * Returns whether the Rate Now button has been pressed in the past
      *
      * @param context {@link Context}
-     * @return true if the Rate Now button has been pressed
+     * @return true if the Rate Now button has previously been pressed
      */
     public boolean getIsRated(final Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
