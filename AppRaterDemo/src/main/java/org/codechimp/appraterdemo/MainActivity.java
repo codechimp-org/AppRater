@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
         });
 
 
+        //TODO - change this comment once builder pattern finalised
         // Optionally you can set the Market you want to use prior to calling app_launched
         // If setMarket not called it will default to Google Play
         // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
@@ -51,6 +52,10 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_main, menu);
+
+        // This example will conditionally hide a menu item based on whether the rate now button has been pressed.
+        menu.findItem(R.id.menu_ratenow).setVisible(appRater.getIsRated(this));
+
         return super.onCreateOptionsMenu(menu);
     }
 
