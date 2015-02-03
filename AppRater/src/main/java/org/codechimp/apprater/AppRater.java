@@ -33,10 +33,12 @@ public class AppRater {
 
     private Market market = new GoogleMarket();
 
+    @SuppressLint("NewApi")
     public enum Theme {
         LIGHT(AlertDialog.THEME_HOLO_LIGHT),
         DARK(AlertDialog.THEME_HOLO_DARK);
         private int theme;
+
         Theme(int theme) {
             this.theme = theme;
         }
@@ -131,7 +133,7 @@ public class AppRater {
      * Call this method at the end of your OnCreate method to determine whether
      * to show the rate prompt
      *
-     * @param context
+     * @param context {@link Context}
      */
     public void appLaunched(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -184,7 +186,7 @@ public class AppRater {
      * Call this method directly if you want to force a rate prompt, useful for
      * testing purposes
      *
-     * @param context
+     * @param context {@link Context}
      */
     public void showRateDialog(final Context context) {
         showRateAlertDialog(context, null);
@@ -193,7 +195,7 @@ public class AppRater {
     /**
      * Call this method directly to go straight to play store listing for rating
      *
-     * @param context
+     * @param context {@link Context}
      */
     public void rateNow(final Context context) {
         try {
@@ -204,24 +206,51 @@ public class AppRater {
     }
 
     /**
+     * Returns whether the Rate Now button has been pressed in the past
+     *
+     * @param context {@link Context}
+     * @return true if the Rate Now button has been pressed
+     */
+    public boolean getIsRated(final Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false);
+    }
+
+    /**
+     * Sets the rated flag so the dialog will/will not be shown in future
+     *
+     * @param context {@link Context}
+     * @param rated   sets whether the Rate Now button has previously been pressed
+     */
+    public void setIsRated(final Context context, final boolean rated) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (editor != null) {
+            editor.putBoolean(PREF_DONT_SHOW_AGAIN, rated);
+        }
+        commitOrApply(editor);
+    }
+
+    /**
      * The meat of the library, actually shows the rate prompt dialog
      */
     @SuppressLint("NewApi")
     private void showRateAlertDialog(final Context context, final SharedPreferences.Editor editor) {
-        AlertDialog.Builder builder;
+        AlertDialog.Builder dialogBuilder;
         if (Build.VERSION.SDK_INT >= 11 && themeSet) {
-            builder = new AlertDialog.Builder(context, (isDark ? AlertDialog.THEME_HOLO_DARK : AlertDialog.THEME_HOLO_LIGHT));
+            dialogBuilder = new AlertDialog.Builder(context, (isDark ? AlertDialog.THEME_HOLO_DARK : AlertDialog.THEME_HOLO_LIGHT));
         } else {
-            builder = new AlertDialog.Builder(context);
+            dialogBuilder = new AlertDialog.Builder(context);
         }
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
-        builder.setTitle(String.format(context.getString(R.string.dialog_title), ratingInfo.getApplicationName()));
+        dialogBuilder.setTitle(String.format(context.getString(R.string.dialog_title), ratingInfo.getApplicationName()));
 
-        builder.setMessage(context.getString(R.string.rate_message));
+        dialogBuilder.setMessage(context.getString(R.string.rate_message));
 
-        builder.setCancelable(isCancelable);
+        dialogBuilder.setCancelable(isCancelable);
 
-        builder.setPositiveButton(context.getString(R.string.rate),
+        dialogBuilder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         rateNow(context);
@@ -233,7 +262,7 @@ public class AppRater {
                     }
                 });
 
-        builder.setNeutralButton(context.getString(R.string.later),
+        dialogBuilder.setNeutralButton(context.getString(R.string.later),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (editor != null) {
@@ -248,7 +277,7 @@ public class AppRater {
                     }
                 });
         if (!hideNoButton) {
-            builder.setNegativeButton(context.getString(R.string.no_thanks),
+            dialogBuilder.setNegativeButton(context.getString(R.string.no_thanks),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             if (editor != null) {
@@ -263,7 +292,7 @@ public class AppRater {
                         }
                     });
         }
-        builder.show();
+        dialogBuilder.show();
     }
 
     @SuppressLint("NewApi")

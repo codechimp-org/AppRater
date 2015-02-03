@@ -15,24 +15,24 @@ import android.app.Activity;
 
 public class MainActivity extends Activity {
 
-    private AppRater appRater = new AppRater.Builder().build();
-	private Button buttonTest;
+    private AppRater appRater;
+    private Button buttonTest;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);		
-		
-		buttonTest = (Button) findViewById(R.id.button1);
-		
-		buttonTest.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				
-				// This forces display of the rate prompt.
-				// It should only be used for testing purposes
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        buttonTest = (Button) findViewById(R.id.button1);
+
+        buttonTest.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+
+                // This forces display of the rate prompt.
+                // It should only be used for testing purposes
                 appRater.showRateDialog(v.getContext());
-			}
-		});
+            }
+        });
 
 
         // Optionally you can set the Market you want to use prior to calling app_launched
@@ -42,9 +42,10 @@ public class MainActivity extends Activity {
         // AppRater.setMarket(new AmazonMarket());
 
         // This will keep a track of when the app was first used and whether to show a prompt
-		// It should be the default implementation of AppRater
+        // It should be the default implementation of AppRater
+        appRater = new AppRater.Builder().build();
         appRater.appLaunched(this);
-	}
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
