@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">%sを評価してください</string>
+    <string name="rate_message">いつもご利用いただきありがとうございます。このアプリを使ってお楽しみいただいた方は、評価をお願いいたします。</string>
+    <string name="rate">いますぐ評価する</string>
+    <string name="later">あとで</string>
+    <string name="no_thanks">いいえ</string>
+</resources>
