@@ -4,6 +4,7 @@ import org.codechimp.apprater.AmazonMarket;
 import org.codechimp.apprater.AppRater;
 import org.codechimp.apprater.GoogleMarket;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,24 +16,37 @@ import android.app.Activity;
 
 public class MainActivity extends Activity {
 
-	private Button buttonTest;
+    private Button buttonTest;
+    private Button buttonSignificantEvent;
+    private Context context;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);		
-		
-		buttonTest = (Button) findViewById(R.id.button1);
-		
-		buttonTest.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				
-				// This forces display of the rate prompt.
-				// It should only be used for testing purposes
-				AppRater.showRateDialog(v.getContext());
-			}
-		});
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        context = this;
+        
+        buttonTest = (Button) findViewById(R.id.button1);
+        
+        buttonTest.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                
+                // This forces display of the rate prompt.
+                // It should only be used for testing purposes
+                AppRater.showRateDialog(v.getContext());
+            }
+        });
 
+
+        buttonSignificantEvent = (Button) findViewById(R.id.button2);
+
+        buttonSignificantEvent.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+
+                // This adds increase de significant event
+                AppRater.userDidSignificantEvent(context);
+            }
+        });
 
         // Optionally you can set the Market you want to use prior to calling app_launched
         // If setMarket not called it will default to Google Play
@@ -40,10 +54,11 @@ public class MainActivity extends Activity {
         // AppRater.setMarket(new GoogleMarket());
         // AppRater.setMarket(new AmazonMarket());
 
+
         // This will keep a track of when the app was first used and whether to show a prompt
-		// It should be the default implementation of AppRater
-        AppRater.app_launched(this);
-	}
+        // It should be the default implementation of AppRater
+        AppRater.app_launched(this, AppRater.DAYS_UNTIL_PROMPT, AppRater.LAUNCHES_UNTIL_PROMPT, 3);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

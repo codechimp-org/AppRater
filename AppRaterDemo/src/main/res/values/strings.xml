@@ -5,4 +5,6 @@
     <string name="details">By default a prompt will appear after 3 days and the app must have been activated at least 7 times.</string>
 	<string name="force_rate_prompt">Force Rate Prompt</string>
     <string name="rate_now">Rate Now</string>
+    <string name="details_events">In this example the prompt will appears at the third significant event.</string>
+    <string name="significant_event">Do a significant event</string>
 </resources>
