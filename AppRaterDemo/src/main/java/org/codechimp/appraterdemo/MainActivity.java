@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.app.Activity;
+import android.widget.Toast;
+
+import java.util.concurrent.Callable;
 
 public class MainActivity extends Activity {
 
@@ -33,7 +36,15 @@ public class MainActivity extends Activity {
 			}
 		});
 
-
+        // You can intercept button clicks to add custom logic
+        // Return true if you'd like to process button click as usual or false if processing should be interrupted
+        AppRater.onRateClick(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                Toast.makeText(MainActivity.this, "Opening store...", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         // Optionally you can set the Market you want to use prior to calling app_launched
         // If setMarket not called it will default to Google Play
         // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
