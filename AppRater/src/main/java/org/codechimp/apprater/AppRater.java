@@ -356,7 +356,8 @@ public class AppRater {
     }
 
     /**
-     * Register a callback to be invoked when 'Rate Now' button is clicked
+     * Register a callback to be invoked when 'Rate Now' button is clicked.
+     * Callback will be executed in background thread, so be sure to not touch UI directly.
      * @param action custom action; returns true if market should be opened, false otherwise
      */
     public static void onRateClick(Callable<Boolean> action) {
@@ -364,7 +365,8 @@ public class AppRater {
     }
 
     /**
-     * Register a callback to be invoked when 'Later' button is clicked
+     * Register a callback to be invoked when 'Later' button is clicked.
+     * Callback will be executed in background thread, so be sure to not touch UI directly.
      * @param action custom action; returns true if user decision should be saved, false otherwise
      */
     public static void onLaterClick(Callable<Boolean> action) {
@@ -372,7 +374,8 @@ public class AppRater {
     }
 
     /**
-     * Register a callback to be invoked when 'No, thanks' button is clicked
+     * Register a callback to be invoked when 'No, thanks' button is clicked.
+     * Callback will be executed in background thread, so be sure to not touch UI directly.
      * @param action custom action; returns true if user decision should be saved, false otherwise
      */
     public static void onNoClick(Callable<Boolean> action) {
