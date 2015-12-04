@@ -28,6 +28,7 @@ You can implement your own market, implementing the Market interface and parse y
 
 If you want to have a "Rate Now" menu option to go straight to your play store listing call `AppRater.rateNow(this);` within your menu code.
 
+You can intercept button clicks to add custom logic. Use `onRateClick`, `onLaterClick` and `onNoClick` to perform additional actions like analytics reporting.
 Try out the demo within this repository.
 
 ## Gradle

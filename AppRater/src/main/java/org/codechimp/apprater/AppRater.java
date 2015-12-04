@@ -11,9 +11,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AppRater {
+    private final static String TAG = AppRater.class.getSimpleName();
     // Preference Constants
     private final static String PREF_NAME = "apprater";
     private final static String PREF_LAUNCH_COUNT = "launch_count";
@@ -33,8 +38,12 @@ public class AppRater {
     private static boolean isVersionNameCheckEnabled;
     private static boolean isVersionCodeCheckEnabled;
     private static boolean isCancelable = true;
+    private static Callable<Boolean> beforeRateAction;
+    private static Callable<Boolean> beforePostponeAction;
+    private static Callable<Boolean> beforeCancelAction;
 
     private static Market market = new GoogleMarket();
+    private static ExecutorService executor = Executors.newSingleThreadExecutor();
 
     /**
      * Decides if the version name check is active or not
@@ -196,7 +205,7 @@ public class AppRater {
         try {
             context.startActivity(new Intent(Intent.ACTION_VIEW, market.getMarketURI(context)));
         } catch (ActivityNotFoundException activityNotFoundException1) {
-            Log.e(AppRater.class.getSimpleName(), "Market Intent not found");
+            Log.e(TAG, "Market Intent not found");
         }
     }
 
@@ -257,10 +266,12 @@ public class AppRater {
         builder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        rateNow(context);
-                        if (editor != null) {
-                            editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                            commitOrApply(editor);
+                        if (beforeRateAction == null || execute(beforeRateAction)) {
+                            rateNow(context);
+                            if (editor != null) {
+                                editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
+                                commitOrApply(editor);
+                            }
                         }
                         dialog.dismiss();
                     }
@@ -269,13 +280,15 @@ public class AppRater {
         builder.setNeutralButton(context.getString(R.string.later),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (editor != null) {
-                            Long date_firstLaunch = System.currentTimeMillis();
-                            editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-                            editor.putLong(PREF_LAUNCH_COUNT, 0);
-                            editor.putBoolean(PREF_REMIND_LATER, true);
-                            editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
-                            commitOrApply(editor);
+                        if (beforePostponeAction == null || execute(beforePostponeAction)) {
+                            if (editor != null) {
+                                Long date_firstLaunch = System.currentTimeMillis();
+                                editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+                                editor.putLong(PREF_LAUNCH_COUNT, 0);
+                                editor.putBoolean(PREF_REMIND_LATER, true);
+                                editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
+                                commitOrApply(editor);
+                            }
                         }
                         dialog.dismiss();
                     }
@@ -284,19 +297,32 @@ public class AppRater {
             builder.setNegativeButton(context.getString(R.string.no_thanks),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            if (editor != null) {
-                                editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                                editor.putBoolean(PREF_REMIND_LATER, false);
-                                long date_firstLaunch = System.currentTimeMillis();
-                                editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-                                editor.putLong(PREF_LAUNCH_COUNT, 0);
-                                commitOrApply(editor);
+                            if (beforeCancelAction == null || execute(beforeCancelAction)) {
+                                if (editor != null) {
+                                    editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
+                                    editor.putBoolean(PREF_REMIND_LATER, false);
+                                    long date_firstLaunch = System.currentTimeMillis();
+                                    editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+                                    editor.putLong(PREF_LAUNCH_COUNT, 0);
+                                    commitOrApply(editor);
+                                }
                             }
                             dialog.dismiss();
                         }
                     });
         }
         builder.show();
+    }
+
+    private static boolean execute(Callable<Boolean> action) {
+        try {
+            return executor.submit(action).get();
+        } catch (InterruptedException e) {
+            Log.e(TAG, "error in custom action", e);
+        } catch (ExecutionException e) {
+            Log.e(TAG, "error in custom action", e);
+        }
+        return false;
     }
 
     @SuppressLint("NewApi")
@@ -317,5 +343,32 @@ public class AppRater {
         long date_firstLaunch = System.currentTimeMillis();
         editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
         commitOrApply(editor);
+    }
+
+    /**
+     * Register a callback to be invoked when 'Rate Now' button is clicked.
+     * Callback will be executed in background thread, so be sure to not touch UI directly.
+     * @param action custom action; returns true if market should be opened, false otherwise
+     */
+    public static void onRateClick(Callable<Boolean> action) {
+        beforeRateAction = action;
+    }
+
+    /**
+     * Register a callback to be invoked when 'Later' button is clicked.
+     * Callback will be executed in background thread, so be sure to not touch UI directly.
+     * @param action custom action; returns true if user decision should be saved, false otherwise
+     */
+    public static void onLaterClick(Callable<Boolean> action) {
+        beforePostponeAction = action;
+    }
+
+    /**
+     * Register a callback to be invoked when 'No, thanks' button is clicked.
+     * Callback will be executed in background thread, so be sure to not touch UI directly.
+     * @param action custom action; returns true if user decision should be saved, false otherwise
+     */
+    public static void onNoClick(Callable<Boolean> action) {
+        beforeCancelAction = action;
     }
 }
