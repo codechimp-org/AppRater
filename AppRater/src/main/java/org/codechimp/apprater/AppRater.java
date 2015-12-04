@@ -13,9 +13,9 @@ import android.os.Build;
 import android.util.Log;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class AppRater {
     private final static String TAG = AppRater.class.getSimpleName();
@@ -266,18 +266,11 @@ public class AppRater {
         builder.setPositiveButton(context.getString(R.string.rate),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (beforeRateAction != null) {
-                            Future<Boolean> rateApproved = executor.submit(beforeRateAction);
-                            try {
-                                if (rateApproved.get()) {
-                                    rateNow(context);
-                                    if (editor != null) {
-                                        editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                                        commitOrApply(editor);
-                                    }
-                                }
-                            } catch (Exception e) {
-                                Log.e(TAG, "Exception in beforeRateAction", e);
+                        if (beforeRateAction == null || execute(beforeRateAction)) {
+                            rateNow(context);
+                            if (editor != null) {
+                                editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
+                                commitOrApply(editor);
                             }
                         }
                         dialog.dismiss();
@@ -287,21 +280,14 @@ public class AppRater {
         builder.setNeutralButton(context.getString(R.string.later),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (beforePostponeAction != null) {
-                            Future<Boolean> postponeApproved = executor.submit(beforePostponeAction);
-                            try {
-                                if (postponeApproved.get()) {
-                                    if (editor != null) {
-                                        Long date_firstLaunch = System.currentTimeMillis();
-                                        editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-                                        editor.putLong(PREF_LAUNCH_COUNT, 0);
-                                        editor.putBoolean(PREF_REMIND_LATER, true);
-                                        editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
-                                        commitOrApply(editor);
-                                    }
-                                }
-                            } catch (Exception e) {
-                                Log.e(TAG, "Exception in beforePostponeAction", e);
+                        if (beforePostponeAction == null || execute(beforePostponeAction)) {
+                            if (editor != null) {
+                                Long date_firstLaunch = System.currentTimeMillis();
+                                editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+                                editor.putLong(PREF_LAUNCH_COUNT, 0);
+                                editor.putBoolean(PREF_REMIND_LATER, true);
+                                editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
+                                commitOrApply(editor);
                             }
                         }
                         dialog.dismiss();
@@ -311,21 +297,14 @@ public class AppRater {
             builder.setNegativeButton(context.getString(R.string.no_thanks),
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            if (beforeCancelAction != null) {
-                                Future<Boolean> cancelApproved = executor.submit(beforeCancelAction);
-                                try {
-                                    if (cancelApproved.get()) {
-                                        if (editor != null) {
-                                            editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                                            editor.putBoolean(PREF_REMIND_LATER, false);
-                                            long date_firstLaunch = System.currentTimeMillis();
-                                            editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-                                            editor.putLong(PREF_LAUNCH_COUNT, 0);
-                                            commitOrApply(editor);
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    Log.e(TAG, "Exception in beforeCancelAction", e);
+                            if (beforeCancelAction == null || execute(beforeCancelAction)) {
+                                if (editor != null) {
+                                    editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
+                                    editor.putBoolean(PREF_REMIND_LATER, false);
+                                    long date_firstLaunch = System.currentTimeMillis();
+                                    editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+                                    editor.putLong(PREF_LAUNCH_COUNT, 0);
+                                    commitOrApply(editor);
                                 }
                             }
                             dialog.dismiss();
@@ -333,6 +312,17 @@ public class AppRater {
                     });
         }
         builder.show();
+    }
+
+    private static boolean execute(Callable<Boolean> action) {
+        try {
+            return executor.submit(action).get();
+        } catch (InterruptedException e) {
+            Log.e(TAG, "error in custom action", e);
+        } catch (ExecutionException e) {
+            Log.e(TAG, "error in custom action", e);
+        }
+        return false;
     }
 
     @SuppressLint("NewApi")
