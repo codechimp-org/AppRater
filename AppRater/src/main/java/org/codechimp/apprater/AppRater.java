@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 public class AppRater {
     // Preference Constants
@@ -33,6 +32,8 @@ public class AppRater {
     private static boolean isVersionNameCheckEnabled;
     private static boolean isVersionCodeCheckEnabled;
     private static boolean isCancelable = true;
+
+    private static String packageName;
 
     private static Market market = new GoogleMarket();
 
@@ -100,8 +101,8 @@ public class AppRater {
      *
      * @param context
      */
-    public static void app_launched(Context context) {
-        app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
+    public static void init(Context context) {
+        init(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
     }
 
     /**
@@ -116,10 +117,10 @@ public class AppRater {
      * @param daysForRemind
      * @param launchesForRemind
      */
-    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt, int daysForRemind, int launchesForRemind) {
+    public static void init(Context context, int daysUntilPrompt, int launchesUntilPrompt, int daysForRemind, int launchesForRemind) {
         setNumDaysForRemindLater(daysForRemind);
         setNumLaunchesForRemindLater(launchesForRemind);
-        app_launched(context, daysUntilPrompt, launchesUntilPrompt);
+        init(context, daysUntilPrompt, launchesUntilPrompt);
     }
 
     /**
@@ -130,7 +131,7 @@ public class AppRater {
      * @param daysUntilPrompt
      * @param launchesUntilPrompt
      */
-    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
+    public static void init(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
@@ -198,6 +199,10 @@ public class AppRater {
         } catch (ActivityNotFoundException activityNotFoundException1) {
             Log.e(AppRater.class.getSimpleName(), "Market Intent not found");
         }
+    }
+
+    public static void setPackageName(String packageName) {
+        AppRater.market.overridePackageName(packageName);
     }
 
     /**
