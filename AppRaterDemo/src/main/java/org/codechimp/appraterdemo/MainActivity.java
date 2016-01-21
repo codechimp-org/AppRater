@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
 		});
 
 
-        // Optionally you can set the Market you want to use prior to calling init
+        // Optionally you can set the Market you want to use prior to calling app_launched
         // If setMarket not called it will default to Google Play
         // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
         // AppRater.setMarket(new GoogleMarket());
@@ -43,9 +43,7 @@ public class MainActivity extends Activity {
 		// It should be the default implementation of AppRater
 
         AppRater.setPackageName("com.johncrossley");
-        AppRater.setNumDaysForRemindLater(7);
-        AppRater.setNumLaunchesForRemindLater(7);
-        AppRater.init(this);
+        AppRater.app_launched(this);
 	}
 
     @Override

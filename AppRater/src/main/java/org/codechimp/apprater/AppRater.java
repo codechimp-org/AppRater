@@ -101,8 +101,8 @@ public class AppRater {
      *
      * @param context
      */
-    public static void init(Context context) {
-        init(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
+    public static void app_launched(Context context) {
+        app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
     }
 
     /**
@@ -117,10 +117,10 @@ public class AppRater {
      * @param daysForRemind
      * @param launchesForRemind
      */
-    public static void init(Context context, int daysUntilPrompt, int launchesUntilPrompt, int daysForRemind, int launchesForRemind) {
+    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt, int daysForRemind, int launchesForRemind) {
         setNumDaysForRemindLater(daysForRemind);
         setNumLaunchesForRemindLater(launchesForRemind);
-        init(context, daysUntilPrompt, launchesUntilPrompt);
+        app_launched(context, daysUntilPrompt, launchesUntilPrompt);
     }
 
     /**
@@ -131,7 +131,7 @@ public class AppRater {
      * @param daysUntilPrompt
      * @param launchesUntilPrompt
      */
-    public static void init(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
+    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
