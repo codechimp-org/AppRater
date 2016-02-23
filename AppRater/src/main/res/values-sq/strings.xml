@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">Vlerëso %s</string>
+    <string name="rate_message">Nqs po ju pëlqen ky program, ju lutemi vlerësojeni me një koment. Faleminderit për suportin tuaj!</string>
+    <string name="rate">Vlerëso Tani</string>
+    <string name="later">Më Vonë</string>
+    <string name="no_thanks">Jo Faleminderit</string>
+</resources>
