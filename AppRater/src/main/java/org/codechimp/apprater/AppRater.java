@@ -13,6 +13,13 @@ import android.os.Build;
 import android.util.Log;
 
 public class AppRater {
+
+    public interface AppRaterDialogCallbackDelegate {
+        void positiveButtonClicked();
+        void neutralButtonClicked();
+        void negativeButtonClicked();
+    }
+
     // Preference Constants
     private final static String PREF_NAME = "apprater";
     private final static String PREF_LAUNCH_COUNT = "launch_count";
@@ -24,25 +31,40 @@ public class AppRater {
 
     private final static int DAYS_UNTIL_PROMPT = 3;
     private final static int LAUNCHES_UNTIL_PROMPT = 7;
-    private static int DAYS_UNTIL_PROMPT_FOR_REMIND_LATER = 3;
-    private static int LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = 7;
-    private static boolean isDark;
-    private static boolean themeSet;
-    private static boolean hideNoButton;
-    private static boolean isVersionNameCheckEnabled;
-    private static boolean isVersionCodeCheckEnabled;
-    private static boolean isCancelable = true;
 
-    private static String packageName;
+    private int daysUntilPromptForRemindLater = 3;
+    private int launchesUntilPromptForRemindLater = 7;
 
-    private static Market market = new GoogleMarket();
+    private Context context;
+
+    private boolean isDark;
+    private boolean themeSet;
+    private boolean hideNoButton;
+    private boolean isVersionNameCheckEnabled;
+    private boolean isVersionCodeCheckEnabled;
+    private boolean isCancelable = true;
+
+    private String packageName;
+
+    private Market market = new GoogleMarket();
+
+    private AppRaterDialogCallbackDelegate delegate;
+
+    public AppRater(Context context) {
+        this(context, null);
+    }
+
+    public AppRater(Context context, AppRaterDialogCallbackDelegate delegate) {
+        this.context = context;
+        this.delegate = delegate;
+    }
 
     /**
      * Decides if the version name check is active or not
      *
      * @param versionNameCheck
      */
-    public static void setVersionNameCheckEnabled(boolean versionNameCheck) {
+    public void setVersionNameCheckEnabled(boolean versionNameCheck) {
         isVersionNameCheckEnabled = versionNameCheck;
     }
 
@@ -51,7 +73,7 @@ public class AppRater {
      *
      * @param versionCodeCheck
      */
-    public static void setVersionCodeCheckEnabled(boolean versionCodeCheck) {
+    public void setVersionCodeCheckEnabled(boolean versionCodeCheck) {
         isVersionCodeCheckEnabled = versionCodeCheck;
     }
 
@@ -61,8 +83,8 @@ public class AppRater {
      *
      * @param daysUntilPromt
      */
-    public static void setNumDaysForRemindLater(int daysUntilPromt) {
-        DAYS_UNTIL_PROMPT_FOR_REMIND_LATER = daysUntilPromt;
+    public void setNumDaysForRemindLater(int daysUntilPromt) {
+        daysUntilPromptForRemindLater = daysUntilPromt;
     }
 
     /**
@@ -71,9 +93,8 @@ public class AppRater {
      *
      * @param launchesUntilPrompt
      */
-    public static void setNumLaunchesForRemindLater(int launchesUntilPrompt) {
-
-        LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = launchesUntilPrompt;
+    public void setNumLaunchesForRemindLater(int launchesUntilPrompt) {
+        launchesUntilPromptForRemindLater = launchesUntilPrompt;
     }
 
     /**
@@ -81,8 +102,8 @@ public class AppRater {
      *
      * @param isNoButtonVisible
      */
-    public static void setDontRemindButtonVisible(boolean isNoButtonVisible) {
-        AppRater.hideNoButton = isNoButtonVisible;
+    public void setDontRemindButtonVisible(boolean isNoButtonVisible) {
+        hideNoButton = isNoButtonVisible;
     }
 
     /**
@@ -90,7 +111,7 @@ public class AppRater {
      *
      * @param cancelable
      */
-    public static void setCancelable(boolean cancelable) {
+    public void setCancelable(boolean cancelable) {
         isCancelable = cancelable;
     }
 
@@ -99,10 +120,9 @@ public class AppRater {
      * to show the rate prompt using the specified or default day, launch count
      * values and checking if the version is changed or not
      *
-     * @param context
      */
-    public static void app_launched(Context context) {
-        app_launched(context, DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
+    public void appLaunched() {
+        appLaunched(DAYS_UNTIL_PROMPT, LAUNCHES_UNTIL_PROMPT);
     }
 
     /**
@@ -111,27 +131,25 @@ public class AppRater {
      * values with additional day and launch parameter for remind me later option
      * and checking if the version is changed or not
      *
-     * @param context
      * @param daysUntilPrompt
      * @param launchesUntilPrompt
      * @param daysForRemind
      * @param launchesForRemind
      */
-    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt, int daysForRemind, int launchesForRemind) {
+    public void appLaunched(int daysUntilPrompt, int launchesUntilPrompt, int daysForRemind, int launchesForRemind) {
         setNumDaysForRemindLater(daysForRemind);
         setNumLaunchesForRemindLater(launchesForRemind);
-        app_launched(context, daysUntilPrompt, launchesUntilPrompt);
+        appLaunched(daysUntilPrompt, launchesUntilPrompt);
     }
 
     /**
      * Call this method at the end of your OnCreate method to determine whether
      * to show the rate prompt
      *
-     * @param context
      * @param daysUntilPrompt
      * @param launchesUntilPrompt
      */
-    public static void app_launched(Context context, int daysUntilPrompt, int launchesUntilPrompt) {
+    public void appLaunched(int daysUntilPrompt, int launchesUntilPrompt) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
@@ -154,8 +172,8 @@ public class AppRater {
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
             return;
         } else if (prefs.getBoolean(PREF_REMIND_LATER, false)) {
-            days = DAYS_UNTIL_PROMPT_FOR_REMIND_LATER;
-            launches = LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER;
+            days = daysUntilPromptForRemindLater;
+            launches = launchesUntilPromptForRemindLater;
         } else {
             days = daysUntilPrompt;
             launches = launchesUntilPrompt;
@@ -182,18 +200,16 @@ public class AppRater {
      * Call this method directly if you want to force a rate prompt, useful for
      * testing purposes
      *
-     * @param context
      */
-    public static void showRateDialog(final Context context) {
+    public void showRateDialog() {
         showRateAlertDialog(context, null);
     }
 
     /**
      * Call this method directly to go straight to play store listing for rating
      *
-     * @param context
      */
-    public static void rateNow(final Context context) {
+    public void rateNow() {
         try {
             context.startActivity(new Intent(Intent.ACTION_VIEW, market.getMarketURI(context)));
         } catch (ActivityNotFoundException activityNotFoundException1) {
@@ -201,8 +217,8 @@ public class AppRater {
         }
     }
 
-    public static void setPackageName(String packageName) {
-        AppRater.market.overridePackageName(packageName);
+    public void setPackageName(String packageName) {
+        market.overridePackageName(packageName);
     }
 
     /**
@@ -210,8 +226,8 @@ public class AppRater {
      *
      * @param market
      */
-    public static void setMarket(Market market) {
-        AppRater.market = market;
+    public void setMarket(Market market) {
+        this.market = market;
     }
 
     /**
@@ -219,7 +235,7 @@ public class AppRater {
      *
      * @return market
      */
-    public static Market getMarket() {
+    public Market getMarket() {
         return market;
     }
 
@@ -227,7 +243,7 @@ public class AppRater {
      * Sets dialog theme to dark
      */
     @TargetApi(11)
-    public static void setDarkTheme() {
+    public void setDarkTheme() {
         isDark = true;
         themeSet = true;
     }
@@ -236,7 +252,7 @@ public class AppRater {
      * Sets dialog theme to light
      */
     @TargetApi(11)
-    public static void setLightTheme() {
+    public void setLightTheme() {
         isDark = false;
         themeSet = true;
     }
@@ -245,7 +261,7 @@ public class AppRater {
      * The meat of the library, actually shows the rate prompt dialog
      */
     @SuppressLint("NewApi")
-    private static void showRateAlertDialog(final Context context, final SharedPreferences.Editor editor) {
+    private void showRateAlertDialog(final Context context, final SharedPreferences.Editor editor) {
         Builder builder;
         if (Build.VERSION.SDK_INT >= 11 && themeSet) {
             builder = new AlertDialog.Builder(context, (isDark ? AlertDialog.THEME_HOLO_DARK : AlertDialog.THEME_HOLO_LIGHT));
@@ -260,52 +276,61 @@ public class AppRater {
         builder.setCancelable(isCancelable);
 
         builder.setPositiveButton(context.getString(R.string.rate),
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        rateNow(context);
-                        if (editor != null) {
-                            editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                            commitOrApply(editor);
-                        }
-                        dialog.dismiss();
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    rateNow();
+                    if (editor != null) {
+                        editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
+                        commitOrApply(editor);
                     }
-                });
+                    if (delegate != null) {
+                        delegate.positiveButtonClicked();
+                    }
+                    dialog.dismiss();
+                }
+            });
 
         builder.setNeutralButton(context.getString(R.string.later),
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if (editor != null) {
+                        Long date_firstLaunch = System.currentTimeMillis();
+                        editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
+                        editor.putLong(PREF_LAUNCH_COUNT, 0);
+                        editor.putBoolean(PREF_REMIND_LATER, true);
+                        editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
+                        commitOrApply(editor);
+                    }
+                    if (delegate != null) {
+                        delegate.neutralButtonClicked();
+                    }
+                    dialog.dismiss();
+                }
+            });
+        if (!hideNoButton) {
+            builder.setNegativeButton(context.getString(R.string.no_thanks),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (editor != null) {
-                            Long date_firstLaunch = System.currentTimeMillis();
+                            editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
+                            editor.putBoolean(PREF_REMIND_LATER, false);
+                            long date_firstLaunch = System.currentTimeMillis();
                             editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
                             editor.putLong(PREF_LAUNCH_COUNT, 0);
-                            editor.putBoolean(PREF_REMIND_LATER, true);
-                            editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
                             commitOrApply(editor);
+                        }
+                        if (delegate != null) {
+                            delegate.negativeButtonClicked();
                         }
                         dialog.dismiss();
                     }
                 });
-        if (!hideNoButton) {
-            builder.setNegativeButton(context.getString(R.string.no_thanks),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            if (editor != null) {
-                                editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                                editor.putBoolean(PREF_REMIND_LATER, false);
-                                long date_firstLaunch = System.currentTimeMillis();
-                                editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-                                editor.putLong(PREF_LAUNCH_COUNT, 0);
-                                commitOrApply(editor);
-                            }
-                            dialog.dismiss();
-                        }
-                    });
         }
         builder.show();
     }
 
     @SuppressLint("NewApi")
-    private static void commitOrApply(SharedPreferences.Editor editor) {
+    private void commitOrApply(SharedPreferences.Editor editor) {
         if (Build.VERSION.SDK_INT > 8) {
             editor.apply();
         } else {
@@ -313,7 +338,7 @@ public class AppRater {
         }
     }
 
-    public static void resetData(Context context) {
+    public void resetData(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
