@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dialog_title">Rate %s</string>
-    <string name="rate_message">If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
-    <string name="rate">Rate Now</string>
-    <string name="later">Later</string>
-    <string name="no_thanks">No thanks</string>
+    <string name="apprater_dialog_title">Rate %s</string>
+    <string name="apprater_rate_message">If you enjoy using this app, please take a moment to rate it. Thanks for your support!</string>
+    <string name="apprater_rate">Rate Now</string>
+    <string name="apprater_later">Later</string>
+    <string name="apprater_no_thanks">No thanks</string>
 </resources>
