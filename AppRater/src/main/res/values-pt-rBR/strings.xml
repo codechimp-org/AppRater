@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dialog_title">Avalie %s</string>
-    <string name="rate_message">Se você está gostando deste aplicativo, por favor reserve um momento para avaliá-lo. Obrigado pela ajuda!</string>
-    <string name="rate">Avalie Agora</string>
-    <string name="later">Mais tarde</string>
-    <string name="no_thanks">Não, obrigado</string>
+    <string name="apprater_dialog_title">Avalie %s</string>
+    <string name="apprater_rate_message">Se você está gostando deste aplicativo, por favor reserve um momento para avaliá-lo. Obrigado pela ajuda!</string>
+    <string name="apprater_rate">Avalie Agora</string>
+    <string name="apprater_later">Mais tarde</string>
+    <string name="apprater_no_thanks">Não, obrigado</string>
 </resources>
