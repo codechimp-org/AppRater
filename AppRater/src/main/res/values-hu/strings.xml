@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">%s értékelése</string>
+    <string name="rate_message">Ha az alkalmazás elnyerte tetszését, akkor kérjük értékelje azt. Köszönjük a támogatást!</string>
+    <string name="rate">Értékelje most</string>
+    <string name="later">Később</string>
+    <string name="no_thanks">Nem, köszönöm</string>
+</resources>
