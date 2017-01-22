@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_title">%s beoordelen</string>
+    <string name="rate_message">Als je van deze app geniet, neem dan even tijd om te beoordelen. Bedankt voor uw steun!</string>
+    <string name="rate">Nu Beoordelen</string>
+    <string name="later">Later</string>
+    <string name="no_thanks">Nee bedankt</string>
+</resources>
