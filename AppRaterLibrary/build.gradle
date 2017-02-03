@@ -15,6 +15,7 @@ android {
     lintOptions {
         abortOnError false
     }
+    buildToolsVersion '25.0.0'
 }
 
 // Used to update in Maven
