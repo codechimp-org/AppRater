@@ -17,6 +17,3 @@ android {
     }
     buildToolsVersion '25.0.0'
 }
-
-// Used to update in Maven
-apply from: '../maven_push.gradle'
