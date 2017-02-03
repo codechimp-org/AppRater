@@ -35,16 +35,17 @@ Try out the demo within this repository.
 
 ## Gradle
 
-AppRater is now published via JitPack, so you just need to add the following dependency to your `build.gradle`.
+AppRater is now published via JitPack, so you just need to add the following.
 
-
-Add it to your build.gradle with:
+Add it to your root build.gradle with:
 ```gradle
 repositories {
+    ...
     maven { url "https://jitpack.io" }
 }
 ```
-and:
+
+Add the dependency to your projects build.gradle:
 
 ```gradle
 dependencies {
