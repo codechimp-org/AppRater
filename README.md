@@ -70,9 +70,9 @@ A GitHub release must be created for JitPack to pick this as the current stable 
 * Update the dependency info in this readme with the latest version number.
 * Create a new release in GitHub from the master branch, maintaining the current format as follows:
 
-    Version Tag: V2.x.x
+    Version Tag: 2.x.x
     
-    Release Title: Version 2.x.x
+    Release Title: 2.x.x
 
 ## Developed By
 
