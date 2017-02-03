@@ -67,7 +67,7 @@ If you would like to help localise this library please fork the project, create 
 
 ## Note to collaborators on releasing
 A GitHub release must be created for JitPack to pick this as the current stable version.
-* Ensure Version Name and Version code are updated within root gradle.properties
+* Ensure VERSION_NAME and VERSION_CODE are updated within root gradle.properties
 * Update the dependency info in this readme with the latest version number
 * Create a new release in GitHub from the master branch, maintaining the current format as follows:
 
