@@ -33,6 +33,12 @@ public class MainActivity extends Activity {
         });
 
 
+        // When compiling a debug version of your app this allows you to change the package name meaning QA can test this feature correctly.
+        // To change package name, just call...
+        // appRater.setPackageName("com.mytestpackagename");
+        // If no package is set, your default behaviour is used.
+
+
         //TODO - change this comment once builder pattern finalised
         // Optionally you can set the Market you want to use prior to calling app_launched
         // If setMarket not called it will default to Google Play
@@ -41,15 +47,13 @@ public class MainActivity extends Activity {
         // AppRater.setMarket(new AmazonMarket());
 
         // This will keep a track of when the app was first used and whether to show a prompt
-		// It should be the default implementation of AppRater
+        // It should be the default implementation of AppRater
 
-        AppRater.setPackageName("com.johncrossley");
-        AppRater.app_launched(this);
-	}
         // It should be the default implementation of AppRater
         appRater = new AppRater.Builder().build();
         appRater.appLaunched(this);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

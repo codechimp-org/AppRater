@@ -20,8 +20,8 @@ public class AppRater {
     private final static String PREF_APP_VERSION_NAME = "app_version_name";
     private final static String PREF_APP_VERSION_CODE = "app_version_code";
 
-    private final static int DAYS_UNTIL_PROMPT = 3;
-    private final static int LAUNCHES_UNTIL_PROMPT = 7;
+    private static int DAYS_UNTIL_PROMPT = 3;
+    private static int LAUNCHES_UNTIL_PROMPT = 7;
     private static int DAYS_UNTIL_PROMPT_FOR_REMIND_LATER = 3;
     private static int LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = 7;
     private static boolean isDark;
@@ -122,10 +122,10 @@ public class AppRater {
     }
 
     public AppRater(Builder builder) {
-        this.daysUntilPrompt = builder.daysUntilPrompt;
-        this.launchesUntilPrompt = builder.launchesUntilPrompt;
-        this.daysUntilPromptForRemindLater = builder.daysUntilPromptForRemindLater;
-        this.launchesUntilPromptForRemindLater = builder.launchesUntilPromptForRemindLater;
+        this.DAYS_UNTIL_PROMPT = builder.daysUntilPrompt;
+        this.LAUNCHES_UNTIL_PROMPT = builder.launchesUntilPrompt;
+        this.DAYS_UNTIL_PROMPT_FOR_REMIND_LATER= builder.daysUntilPromptForRemindLater;
+        this.LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = builder.launchesUntilPromptForRemindLater;
         this.isDark = Theme.DARK.equals(builder.theme);
         this.themeSet = builder.isThemeSet;
         this.hideNoButton = builder.hideNoButton;
@@ -164,11 +164,11 @@ public class AppRater {
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
             return;
         } else if (prefs.getBoolean(PREF_REMIND_LATER, false)) {
-            days = daysUntilPromptForRemindLater;
-            launches = launchesUntilPromptForRemindLater;
+            days = DAYS_UNTIL_PROMPT_FOR_REMIND_LATER;
+            launches = LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER;
         } else {
-            days = daysUntilPrompt;
-            launches = launchesUntilPrompt;
+            days = DAYS_UNTIL_PROMPT;
+            launches = LAUNCHES_UNTIL_PROMPT;
         }
 
         // Increment launch counter
@@ -211,8 +211,8 @@ public class AppRater {
         }
     }
 
-    public static void setPackageName(String packageName) {
-        AppRater.market.overridePackageName(packageName);
+    public void setPackageName(String packageName) {
+        this.market.overridePackageName(packageName);
     }
 
     /**
