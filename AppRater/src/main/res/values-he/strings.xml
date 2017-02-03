@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_title">דירוג %s</string>
-    <string name="rate_message">אם אתה נהנה להשתמש באפליקציה, אנא הקדש דקה מזמנך על מנת לדרג את האפליקציה. תודה על תמיכתך</string>
-    <string name="rate">דרג עכשיו</string>
-    <string name="later">אחר כך</string>
-    <string name="no_thanks">לא תודה</string>
-</resources>

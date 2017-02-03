@@ -40,7 +40,7 @@ AppRater is now pushed to Maven Central as an AAR, so you just need to add the f
 
 ## Translations
 
-If you would like to help localise this library please fork the project, create and verify your language files, then create a pull request.
+If you would like to help localise this library please fork the project, create and verify your language files, then create a pull request to the translations branch.
 
 ## Contributing Code
 
@@ -61,7 +61,7 @@ Adapted from a snippet originally posted [here](http://www.androidsnippets.com/p
 
 ## License
 
-    Copyright 2013 Andrew Jackson
+    Copyright 2013-2017 Andrew Jackson
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

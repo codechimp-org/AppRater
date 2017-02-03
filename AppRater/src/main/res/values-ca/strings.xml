@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_title">Puntua %s</string>
-    <string name="rate_message">Si t\'agrada utilitzar aquesta app, si us plau prengui un moment per avaluar-lo. Gràcies pel seu suport!</string>
-    <string name="rate">Puntua ara</string>
-    <string name="later">Després</string>
-    <string name="no_thanks">No gràcies</string>
-</resources>

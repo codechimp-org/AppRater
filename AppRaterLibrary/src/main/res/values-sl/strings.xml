@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprater_dialog_title">Oceni %s</string>
+    <string name="apprater_rate_message">Če ti je aplikacija všeč, jo prosim oceni. Hvala za tvojo podporo!</string>
+    <string name="apprater_rate">Oceni sedaj</string>
+    <string name="apprater_later">Kasneje</string>
+    <string name="apprater_no_thanks">Ne hvala</string>
+</resources>

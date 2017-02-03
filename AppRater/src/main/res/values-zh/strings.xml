@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_title">评价 %s</string>
-    <string name="rate_message">如果您喜欢这款应用，请您花费一点点时间给我们些评价，谢谢您的支持！</string>
-    <string name="rate">立即评价</string>
-    <string name="later">稍后再来</string>
-    <string name="no_thanks">残忍拒绝</string>
-</resources>

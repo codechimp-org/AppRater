@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprater_dialog_title">Bình Chọn %s</string>
+    <string name="apprater_rate_message">Hi, nếu bạn thấy sử dụng ứng dụng này hay, vui lòng dành chút thời gian bình chọn cho chúng tôi bạn nhé. Chúng tôi rất cảm ơn sự nhiệt tình ủng hộ của bạn.</string>
+    <string name="apprater_rate">Bình Chọn</string>
+    <string name="apprater_later">Để Sau</string>
+    <string name="apprater_no_thanks">Không, Cảm Ơn</string>
+</resources>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_title">قيم %s</string>
-    <string name="rate_message">إذا استمتعت باستخدام التطبيق الرجاء تقيمه في المتجر... شكرا للدعم!</string>
-    <string name="rate">قيمه الأن</string>
-    <string name="later">لاحقا</string>
-    <string name="no_thanks">لا أريد</string>
-</resources>

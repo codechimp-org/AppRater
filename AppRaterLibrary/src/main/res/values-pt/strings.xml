@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprater_dialog_title">Avalie %s</string>
+    <string name="apprater_rate_message">Se gosta de utilizar esta aplicação, por favor dispense alguns momentos para a avaliar. Obrigado pelo seu apoio.</string>
+    <string name="apprater_rate">Avalie agora</string>
+    <string name="apprater_later">Mais tarde</string>
+    <string name="apprater_no_thanks">Não obrigado</string>
+</resources>

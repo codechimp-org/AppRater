@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprater_dialog_title">Betygsätt %s</string>
+    <string name="apprater_rate_message">Om du gillar den här appen, betygsätt den gärna. Tack för din support!</string>
+    <string name="apprater_rate">Betygsätt nu</string>
+    <string name="apprater_later">Senare</string>
+    <string name="apprater_no_thanks">Nej tack</string>
+</resources>

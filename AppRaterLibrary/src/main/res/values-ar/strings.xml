@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprater_dialog_title">قيم %s</string>
+    <string name="apprater_rate_message">إذا استمتعت باستخدام التطبيق الرجاء تقيمه في المتجر... شكرا للدعم!</string>
+    <string name="apprater_rate">قيمه الأن</string>
+    <string name="apprater_later">لاحقا</string>
+    <string name="apprater_no_thanks">لا أريد</string>
+</resources>

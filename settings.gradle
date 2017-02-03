@@ -1,1 +1,1 @@
-include ':AppRater', ':AppRaterDemo'
+include ':AppRaterLibrary', ':AppRaterDemo'

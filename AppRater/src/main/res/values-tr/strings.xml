@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_title">%s Derecelendir</string>
-    <string name="rate_message">Bu uygulamayı beğendiyseniz lütfen derecelendirin. Desteğiniz için teşekkürler.</string>
-    <string name="rate">Şimdi</string>
-    <string name="later">Sonra</string>
-    <string name="no_thanks">Hayır</string>
-</resources>

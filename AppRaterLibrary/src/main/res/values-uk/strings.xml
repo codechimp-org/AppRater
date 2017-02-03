@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprater_dialog_title">Оцінити %s</string>
+    <string name="apprater_rate_message">Якщо Вам подобається цей додаток, будь ласка, оцініть його. Дякуємо за підтримку!</string>
+    <string name="apprater_rate">Оцінити зараз</string>
+    <string name="apprater_later">Не зараз</string>
+    <string name="apprater_no_thanks">Ні, дякую</string>
+</resources>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_title">Оценить %s</string>
-    <string name="rate_message">Если вам нравится это приложение, оцените его, пожалуйста. Спасибо за поддержку!</string>
-    <string name="rate">Оценить сейчас</string>
-    <string name="later">Напомнить позже</string>
-    <string name="no_thanks">Спасибо, нет</string>
-</resources>
