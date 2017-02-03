@@ -20,16 +20,16 @@ public class AppRater {
     private final static String PREF_APP_VERSION_NAME = "app_version_name";
     private final static String PREF_APP_VERSION_CODE = "app_version_code";
 
-    private static int DAYS_UNTIL_PROMPT = 3;
-    private static int LAUNCHES_UNTIL_PROMPT = 7;
-    private static int DAYS_UNTIL_PROMPT_FOR_REMIND_LATER = 3;
-    private static int LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = 7;
-    private static boolean isDark;
-    private static boolean themeSet;
-    private static boolean hideNoButton;
-    private static boolean isVersionNameCheckEnabled;
-    private static boolean isVersionCodeCheckEnabled;
-    private static boolean isCancelable = true;
+    private int daysUntilPrompt = 3;
+    private int launchesUntilPrompt = 7;
+    private int daysUntilPromptForRemindLater = 3;
+    private int launchesUntilPromptForRemindLater = 7;
+    private boolean isDark;
+    private boolean themeSet;
+    private boolean hideNoButton;
+    private boolean isVersionNameCheckEnabled;
+    private boolean isVersionCodeCheckEnabled;
+    private boolean isCancelable = true;
 
     private static String packageName;
 
@@ -122,10 +122,10 @@ public class AppRater {
     }
 
     public AppRater(Builder builder) {
-        this.DAYS_UNTIL_PROMPT = builder.daysUntilPrompt;
-        this.LAUNCHES_UNTIL_PROMPT = builder.launchesUntilPrompt;
-        this.DAYS_UNTIL_PROMPT_FOR_REMIND_LATER= builder.daysUntilPromptForRemindLater;
-        this.LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER = builder.launchesUntilPromptForRemindLater;
+        this.daysUntilPrompt = builder.daysUntilPrompt;
+        this.launchesUntilPrompt= builder.launchesUntilPrompt;
+        this.daysUntilPromptForRemindLater= builder.daysUntilPromptForRemindLater;
+        this.launchesUntilPromptForRemindLater= builder.launchesUntilPromptForRemindLater;
         this.isDark = Theme.DARK.equals(builder.theme);
         this.themeSet = builder.isThemeSet;
         this.hideNoButton = builder.hideNoButton;
@@ -164,11 +164,11 @@ public class AppRater {
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
             return;
         } else if (prefs.getBoolean(PREF_REMIND_LATER, false)) {
-            days = DAYS_UNTIL_PROMPT_FOR_REMIND_LATER;
-            launches = LAUNCHES_UNTIL_PROMPT_FOR_REMIND_LATER;
+            days = daysUntilPromptForRemindLater;
+            launches = launchesUntilPromptForRemindLater;
         } else {
-            days = DAYS_UNTIL_PROMPT;
-            launches = LAUNCHES_UNTIL_PROMPT;
+            days = daysUntilPrompt;
+            launches = launchesUntilPrompt;
         }
 
         // Increment launch counter
