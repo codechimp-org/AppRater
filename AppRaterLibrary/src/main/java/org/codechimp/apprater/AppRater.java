@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 public class AppRater {
     // Preference Constants
@@ -33,6 +32,8 @@ public class AppRater {
     private static boolean isVersionNameCheckEnabled;
     private static boolean isVersionCodeCheckEnabled;
     private static boolean isCancelable = true;
+
+    private static String packageName;
 
     private static Market market = new GoogleMarket();
 
@@ -198,6 +199,10 @@ public class AppRater {
         } catch (ActivityNotFoundException activityNotFoundException1) {
             Log.e(AppRater.class.getSimpleName(), "Market Intent not found");
         }
+    }
+
+    public static void setPackageName(String packageName) {
+        AppRater.market.overridePackageName(packageName);
     }
 
     /**
