@@ -112,6 +112,11 @@ public class AppRater {
             return this;
         }
 
+        public Builder packageName(String packageName) {
+            this.market.setPackageName(packageName);
+            return this;
+        }
+
         public AppRater build() {
             return new AppRater(this);
         }
@@ -209,10 +214,6 @@ public class AppRater {
         } catch (ActivityNotFoundException activityNotFoundException1) {
             Log.e(AppRater.class.getSimpleName(), "Market Intent not found", activityNotFoundException1);
         }
-    }
-
-    public void setPackageName(String packageName) {
-        this.market.overridePackageName(packageName);
     }
 
     /**

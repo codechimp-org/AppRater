@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import org.codechimp.apprater.AppRater;
+import org.codechimp.apprater.GoogleMarket;
 
 public class MainActivity extends Activity {
 
@@ -32,26 +33,31 @@ public class MainActivity extends Activity {
             }
         });
 
+        // Basic implementation using all defaults
+        appRater = new AppRater.Builder().build();
+        appRater.appLaunched(this);
+
+        // Advanced Configuration
+        // ======================
+        // Start with a builder
+        // AppRater.Builder builder = new AppRater.Builder();
+
+        //TODO - change this comment once builder pattern finalised
+
+        // Optionally you can set the Market you want to use prior to calling app_launched, if not set it will default to Google Play
+        // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
+        // builder.market(new GoogleMarket());
+        // builder.packageName("com.mytestpackage");
+        // appRater = builder.build();
+
 
         // When compiling a debug version of your app this allows you to change the package name meaning QA can test this feature correctly.
         // To change package name, just call...
-        // appRater.setPackageName("com.mytestpackagename");
+        // builder.packageName("com.mytestpackage");
         // If no package is set, your default behaviour is used.
 
-
-        //TODO - change this comment once builder pattern finalised
-        // Optionally you can set the Market you want to use prior to calling app_launched
-        // If setMarket not called it will default to Google Play
-        // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
-        // AppRater.setMarket(new GoogleMarket());
-        // AppRater.setMarket(new AmazonMarket());
-
         // This will keep a track of when the app was first used and whether to show a prompt
-        // It should be the default implementation of AppRater
 
-        // It should be the default implementation of AppRater
-        appRater = new AppRater.Builder().build();
-        appRater.appLaunched(this);
     }
 
 
