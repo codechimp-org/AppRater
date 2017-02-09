@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         // Advanced Configuration
         // ======================
         // Always start with a builder then set custom values
-//        AppRater.Builder builder = new AppRater.Builder();
+        AppRater.Builder builder = new AppRater.Builder();
 
         //TODO - change this comment once builder pattern finalised
 
@@ -59,6 +59,10 @@ public class MainActivity extends Activity {
         // When compiling a debug version of your app this allows you to change the package name meaning QA can test this feature correctly.
         // If no package is set, your default behaviour is used.
 //        builder.packageName("com.mytestpackage");
+
+        // Finally build the apprater and launch
+//        appRater = builder.build();
+//        appRater.appLaunched(this);
 
     }
 
