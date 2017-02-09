@@ -70,21 +70,41 @@ public class AppRater {
             return this;
         }
 
+        /**
+         * Sets the number of days from the first launch at which the rate prompt will be shown
+         * @param daysUntilPrompt the number of days at with to prompt
+         * @return builder
+         */
         public Builder daysUntilPrompt(int daysUntilPrompt) {
             this.daysUntilPrompt = daysUntilPrompt;
             return this;
         }
 
+        /**
+         * Sets the number of launches from the first launch at which the rate prompt will be shown
+         * @param launchesUntilPrompt the number of launches at with to prompt
+         * @return builder
+         */
         public Builder launchesUntilPrompt(int launchesUntilPrompt) {
             this.launchesUntilPrompt = launchesUntilPrompt;
             return this;
         }
 
+        /**
+         * Sets the number of days from the remind later button being pressed at which the rate prompt will be shown again
+         * @param daysUntilPromptForRemindLater the number of days at with to prompt
+         * @return builder
+         */
         public Builder daysUntilPromptForRemindLater(int daysUntilPromptForRemindLater) {
             this.daysUntilPromptForRemindLater = daysUntilPromptForRemindLater;
             return this;
         }
 
+        /**
+         * Sets the number of launches from the remind later button being pressed at which the rate prompt will be shown again
+         * @param launchesUntilPromptForRemindLater the number of launches at with to prompt
+         * @return builder
+         */
         public Builder launchesUntilPromptForRemindLater(int launchesUntilPromptForRemindLater) {
             this.launchesUntilPromptForRemindLater = launchesUntilPromptForRemindLater;
             return this;
@@ -95,16 +115,31 @@ public class AppRater {
             return this;
         }
 
+        /**
+         * If enabled this will reset the day/launch counts when a new version name is detected
+         * @param isVersionNameCheckEnabled true to enable version name checking
+         * @return builder
+         */
         public Builder versionNameCheckEnabled(boolean isVersionNameCheckEnabled) {
             this.isVersionNameCheckEnabled = isVersionNameCheckEnabled;
             return this;
         }
 
+        /**
+         * If enabled this will reset the day/launch counts when a new version code is detected
+         * @param isVersionCodeCheckEnabled true to enable version code checking
+         * @return builder
+         */
         public Builder versionCodeCheckEnabled(boolean isVersionCodeCheckEnabled) {
             this.isVersionCodeCheckEnabled = isVersionCodeCheckEnabled;
             return this;
         }
 
+        /**
+         * If enabled will allow the dialog to be cancelled rather than specifically chose an option
+         * @param isCancelable true to set that the dialog is cancelable
+         * @return builder
+         */
         public Builder cancelable(boolean isCancelable) {
             this.isCancelable = isCancelable;
             return this;
