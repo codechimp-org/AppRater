@@ -1,13 +1,13 @@
 package org.codechimp.apprater;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 public class AppRater {
@@ -28,8 +28,6 @@ public class AppRater {
     private int launchesUntilPrompt = DEFAULT_LAUNCHES_UNTIL_PROMPT;
     private int daysUntilPromptForRemindLater = DEFAULT_DAYS_UNTIL_PROMPT;
     private int launchesUntilPromptForRemindLater = DEFAULT_LAUNCHES_UNTIL_PROMPT;
-    private boolean isDark;
-    private boolean themeSet;
     private boolean hideNoButton;
     private boolean isVersionNameCheckEnabled;
     private boolean isVersionCodeCheckEnabled;
@@ -37,41 +35,22 @@ public class AppRater {
     private String packageName;
     private Market market = new GoogleMarket();
 
-    @SuppressLint("NewApi")
-    public enum Theme {
-        LIGHT(AlertDialog.THEME_HOLO_LIGHT),
-        DARK(AlertDialog.THEME_HOLO_DARK);
-        private int theme;
-
-        Theme(int theme) {
-            this.theme = theme;
-        }
-    }
-
     public static class Builder {
         private int daysUntilPrompt = DEFAULT_DAYS_UNTIL_PROMPT;
         private int launchesUntilPrompt = DEFAULT_LAUNCHES_UNTIL_PROMPT;
         private int daysUntilPromptForRemindLater = DEFAULT_DAYS_UNTIL_PROMPT;
         private int launchesUntilPromptForRemindLater = DEFAULT_LAUNCHES_UNTIL_PROMPT;
-
-        private Theme theme = Theme.LIGHT;
-        private boolean isThemeSet;
         private boolean hideNoButton;
         private boolean isVersionNameCheckEnabled;
         private boolean isVersionCodeCheckEnabled;
         private boolean isCancelable = true;
         private String packageName;
-
         private Market market = new GoogleMarket();
 
-        public Builder theme(Theme theme) {
-            this.theme = theme;
-            this.isThemeSet = true;
-            return this;
-        }
 
         /**
          * Sets the number of days from the first launch at which the rate prompt will be shown
+         *
          * @param daysUntilPrompt the number of days at with to prompt
          * @return builder
          */
@@ -82,6 +61,7 @@ public class AppRater {
 
         /**
          * Sets the number of launches from the first launch at which the rate prompt will be shown
+         *
          * @param launchesUntilPrompt the number of launches at with to prompt
          * @return builder
          */
@@ -92,6 +72,7 @@ public class AppRater {
 
         /**
          * Sets the number of days from the remind later button being pressed at which the rate prompt will be shown again
+         *
          * @param daysUntilPromptForRemindLater the number of days at with to prompt
          * @return builder
          */
@@ -102,6 +83,7 @@ public class AppRater {
 
         /**
          * Sets the number of launches from the remind later button being pressed at which the rate prompt will be shown again
+         *
          * @param launchesUntilPromptForRemindLater the number of launches at with to prompt
          * @return builder
          */
@@ -112,6 +94,7 @@ public class AppRater {
 
         /**
          * Sets whether to display the No Thanks button on the rate prompt.
+         *
          * @param hideNoButton true to hide the No Thanks button
          * @return builder
          */
@@ -122,6 +105,7 @@ public class AppRater {
 
         /**
          * If enabled this will reset the day/launch counts when a new version name is detected
+         *
          * @param isVersionNameCheckEnabled true to enable version name checking
          * @return builder
          */
@@ -132,6 +116,7 @@ public class AppRater {
 
         /**
          * If enabled this will reset the day/launch counts when a new version code is detected
+         *
          * @param isVersionCodeCheckEnabled true to enable version code checking
          * @return builder
          */
@@ -142,6 +127,7 @@ public class AppRater {
 
         /**
          * If enabled will allow the dialog to be cancelled rather than specifically chose an option
+         *
          * @param isCancelable true to set that the dialog is cancelable
          * @return builder
          */
@@ -153,6 +139,7 @@ public class AppRater {
         /**
          * Sets the market to use, different markets have different URI's to trigger the app store rating
          * Market classes are responsible for generating URI's combining the package name with the base market URI.
+         *
          * @param market the market URL generator to use
          * @return builder
          */
@@ -164,6 +151,7 @@ public class AppRater {
 
         /**
          * When compiling a debug version of your app this allows you to change the package name for testing purposes.
+         *
          * @param packageName the package name that should be set and used via the market URI
          * @return builder
          */
@@ -184,11 +172,9 @@ public class AppRater {
 
     public AppRater(Builder builder) {
         this.daysUntilPrompt = builder.daysUntilPrompt;
-        this.launchesUntilPrompt= builder.launchesUntilPrompt;
-        this.daysUntilPromptForRemindLater= builder.daysUntilPromptForRemindLater;
-        this.launchesUntilPromptForRemindLater= builder.launchesUntilPromptForRemindLater;
-        this.isDark = Theme.DARK.equals(builder.theme);
-        this.themeSet = builder.isThemeSet;
+        this.launchesUntilPrompt = builder.launchesUntilPrompt;
+        this.daysUntilPromptForRemindLater = builder.daysUntilPromptForRemindLater;
+        this.launchesUntilPromptForRemindLater = builder.launchesUntilPromptForRemindLater;
         this.hideNoButton = builder.hideNoButton;
         this.isVersionNameCheckEnabled = builder.isVersionNameCheckEnabled;
         this.isVersionCodeCheckEnabled = builder.isVersionCodeCheckEnabled;
@@ -305,12 +291,8 @@ public class AppRater {
      */
     @SuppressLint("NewApi")
     private void showRateAlertDialog(final Context context, final SharedPreferences.Editor editor) {
-        AlertDialog.Builder dialogBuilder;
-        if (Build.VERSION.SDK_INT >= 11 && themeSet) {
-            dialogBuilder = new AlertDialog.Builder(context, (isDark ? AlertDialog.THEME_HOLO_DARK : AlertDialog.THEME_HOLO_LIGHT));
-        } else {
-            dialogBuilder = new AlertDialog.Builder(context);
-        }
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
         dialogBuilder.setTitle(String.format(context.getString(R.string.apprater_dialog_title), ratingInfo.getApplicationName()));
 

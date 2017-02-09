@@ -1,7 +1,7 @@
 package org.codechimp.appraterdemo;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,9 +10,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import org.codechimp.apprater.AppRater;
-import org.codechimp.apprater.GoogleMarket;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private AppRater appRater;
     private Button buttonTest;
