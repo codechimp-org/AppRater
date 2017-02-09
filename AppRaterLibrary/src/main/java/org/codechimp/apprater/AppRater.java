@@ -20,19 +20,21 @@ public class AppRater {
     private final static String PREF_APP_VERSION_NAME = "app_version_name";
     private final static String PREF_APP_VERSION_CODE = "app_version_code";
 
-    private int daysUntilPrompt = 3;
-    private int launchesUntilPrompt = 7;
-    private int daysUntilPromptForRemindLater = 3;
-    private int launchesUntilPromptForRemindLater = 7;
+    private final static int DEFAULT_DAYS_UNTIL_PROMPT = 3;
+    private final static int DEFAULT_LAUNCHES_UNTIL_PROMPT = 7;
+
+
+    private int daysUntilPrompt = DEFAULT_DAYS_UNTIL_PROMPT;
+    private int launchesUntilPrompt = DEFAULT_LAUNCHES_UNTIL_PROMPT;
+    private int daysUntilPromptForRemindLater = DEFAULT_DAYS_UNTIL_PROMPT;
+    private int launchesUntilPromptForRemindLater = DEFAULT_LAUNCHES_UNTIL_PROMPT;
     private boolean isDark;
     private boolean themeSet;
     private boolean hideNoButton;
     private boolean isVersionNameCheckEnabled;
     private boolean isVersionCodeCheckEnabled;
     private boolean isCancelable = true;
-
-    private static String packageName;
-
+    private String packageName;
     private Market market = new GoogleMarket();
 
     @SuppressLint("NewApi")
@@ -47,10 +49,10 @@ public class AppRater {
     }
 
     public static class Builder {
-        private int daysUntilPrompt = 3;
-        private int launchesUntilPrompt = 7;
-        private int daysUntilPromptForRemindLater = 3;
-        private int launchesUntilPromptForRemindLater = 7;
+        private int daysUntilPrompt = DEFAULT_DAYS_UNTIL_PROMPT;
+        private int launchesUntilPrompt = DEFAULT_LAUNCHES_UNTIL_PROMPT;
+        private int daysUntilPromptForRemindLater = DEFAULT_DAYS_UNTIL_PROMPT;
+        private int launchesUntilPromptForRemindLater = DEFAULT_LAUNCHES_UNTIL_PROMPT;
 
         private Theme theme = Theme.LIGHT;
         private boolean isThemeSet;
@@ -58,6 +60,7 @@ public class AppRater {
         private boolean isVersionNameCheckEnabled;
         private boolean isVersionCodeCheckEnabled;
         private boolean isCancelable = true;
+        private String packageName;
 
         private Market market = new GoogleMarket();
 
@@ -109,10 +112,12 @@ public class AppRater {
 
         public Builder market(Market market) {
             this.market = market;
+            this.market.setPackageName(packageName);
             return this;
         }
 
         public Builder packageName(String packageName) {
+            this.packageName = packageName;
             this.market.setPackageName(packageName);
             return this;
         }
@@ -137,6 +142,7 @@ public class AppRater {
         this.isVersionNameCheckEnabled = builder.isVersionNameCheckEnabled;
         this.isVersionCodeCheckEnabled = builder.isVersionCodeCheckEnabled;
         this.isCancelable = builder.isCancelable;
+        this.packageName = builder.packageName;
         this.market = builder.market;
     }
 
