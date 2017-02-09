@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -199,14 +198,14 @@ public class AppRater {
             if (!ratingInfo.getApplicationVersionName().equals(prefs.getString(PREF_APP_VERSION_NAME, "none"))) {
                 editor.putString(PREF_APP_VERSION_NAME, ratingInfo.getApplicationVersionName());
                 resetData(context);
-                commitOrApply(editor);
+                editor.apply();
             }
         }
         if (isVersionCodeCheckEnabled) {
             if (ratingInfo.getApplicationVersionCode() != (prefs.getInt(PREF_APP_VERSION_CODE, -1))) {
                 editor.putInt(PREF_APP_VERSION_CODE, ratingInfo.getApplicationVersionCode());
                 resetData(context);
-                commitOrApply(editor);
+                editor.apply();
             }
         }
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
@@ -233,7 +232,7 @@ public class AppRater {
         if (launch_count >= launches || (System.currentTimeMillis() >= date_firstLaunch + (days * 24 * 60 * 60 * 1000))) {
             showRateAlertDialog(context, editor);
         }
-        commitOrApply(editor);
+        editor.apply();
     }
 
     /**
@@ -282,8 +281,8 @@ public class AppRater {
 
         if (editor != null) {
             editor.putBoolean(PREF_DONT_SHOW_AGAIN, rated);
+            editor.apply();
         }
-        commitOrApply(editor);
     }
 
     /**
@@ -306,7 +305,7 @@ public class AppRater {
                         rateNow(context);
                         if (editor != null) {
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                            commitOrApply(editor);
+                            editor.apply();
                         }
                         dialog.dismiss();
                     }
@@ -321,7 +320,7 @@ public class AppRater {
                             editor.putLong(PREF_LAUNCH_COUNT, 0);
                             editor.putBoolean(PREF_REMIND_LATER, true);
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
-                            commitOrApply(editor);
+                            editor.apply();
                         }
                         dialog.dismiss();
                     }
@@ -336,22 +335,13 @@ public class AppRater {
                                 long date_firstLaunch = System.currentTimeMillis();
                                 editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
                                 editor.putLong(PREF_LAUNCH_COUNT, 0);
-                                commitOrApply(editor);
+                                editor.apply();
                             }
                             dialog.dismiss();
                         }
                     });
         }
         dialogBuilder.show();
-    }
-
-    @SuppressLint("NewApi")
-    private static void commitOrApply(SharedPreferences.Editor editor) {
-        if (Build.VERSION.SDK_INT > 8) {
-            editor.apply();
-        } else {
-            editor.commit();
-        }
     }
 
     public static void resetData(Context context) {
@@ -362,6 +352,6 @@ public class AppRater {
         editor.putLong(PREF_LAUNCH_COUNT, 0);
         long date_firstLaunch = System.currentTimeMillis();
         editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-        commitOrApply(editor);
+        editor.apply();
     }
 }
