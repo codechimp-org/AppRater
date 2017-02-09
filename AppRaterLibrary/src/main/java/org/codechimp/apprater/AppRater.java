@@ -110,6 +110,11 @@ public class AppRater {
             return this;
         }
 
+        /**
+         * Sets whether to display the No Thanks button on the rate prompt.
+         * @param hideNoButton true to hide the No Thanks button
+         * @return builder
+         */
         public Builder hideNoButton(boolean hideNoButton) {
             this.hideNoButton = hideNoButton;
             return this;
@@ -145,12 +150,23 @@ public class AppRater {
             return this;
         }
 
+        /**
+         * Sets the market to use, different markets have different URI's to trigger the app store rating
+         * Market classes are responsible for generating URI's combining the package name with the base market URI.
+         * @param market the market URL generator to use
+         * @return builder
+         */
         public Builder market(Market market) {
             this.market = market;
             this.market.setPackageName(packageName);
             return this;
         }
 
+        /**
+         * When compiling a debug version of your app this allows you to change the package name for testing purposes.
+         * @param packageName the package name that should be set and used via the market URI
+         * @return builder
+         */
         public Builder packageName(String packageName) {
             this.packageName = packageName;
             this.market.setPackageName(packageName);
