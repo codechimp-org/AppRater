@@ -1,7 +1,7 @@
 package org.codechimp.appraterdemo;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import org.codechimp.apprater.AppRater;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private AppRater appRater;
     private Button buttonTest;
@@ -32,26 +32,37 @@ public class MainActivity extends Activity {
             }
         });
 
-
-        // When compiling a debug version of your app this allows you to change the package name meaning QA can test this feature correctly.
-        // To change package name, just call...
-        // appRater.setPackageName("com.mytestpackagename");
-        // If no package is set, your default behaviour is used.
-
-
-        //TODO - change this comment once builder pattern finalised
-        // Optionally you can set the Market you want to use prior to calling app_launched
-        // If setMarket not called it will default to Google Play
-        // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
-        // AppRater.setMarket(new GoogleMarket());
-        // AppRater.setMarket(new AmazonMarket());
-
-        // This will keep a track of when the app was first used and whether to show a prompt
-        // It should be the default implementation of AppRater
-
-        // It should be the default implementation of AppRater
+        // Basic implementation using all defaults
+        // =======================================
         appRater = new AppRater.Builder().build();
         appRater.appLaunched(this);
+
+        // Advanced Configuration
+        // ======================
+        // Always start with a builder then set custom values
+        AppRater.Builder builder = new AppRater.Builder();
+
+        //TODO - change this comment once builder pattern finalised
+
+        // Override the default day/launch counts
+//        builder.daysUntilPrompt(11);
+//        builder.launchesUntilPrompt(100);
+
+        // Set the Market you want to use prior to calling app_launched, if not set it will default to Google Play
+        // Current implementations are Google Play and Amazon App Store, you can add your own by implementing Market
+//         builder.market(new GoogleMarket());
+//         builder.packageName("com.mytestpackage");
+//         appRater = builder.build();
+
+
+        // When compiling a debug version of your app this allows you to change the package name meaning QA can test this feature correctly.
+        // If no package is set, your default behaviour is used.
+//        builder.packageName("com.mytestpackage");
+
+        // Finally build the apprater and launch
+//        appRater = builder.build();
+//        appRater.appLaunched(this);
+
     }
 
 

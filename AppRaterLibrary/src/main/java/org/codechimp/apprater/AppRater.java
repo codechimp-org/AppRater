@@ -1,13 +1,12 @@
 package org.codechimp.apprater;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Button;
@@ -23,95 +22,144 @@ public class AppRater {
     private final static String PREF_APP_VERSION_NAME = "app_version_name";
     private final static String PREF_APP_VERSION_CODE = "app_version_code";
 
-    private int daysUntilPrompt = 3;
-    private int launchesUntilPrompt = 7;
-    private int daysUntilPromptForRemindLater = 3;
-    private int launchesUntilPromptForRemindLater = 7;
-    private boolean isDark;
-    private boolean themeSet;
+    private final static int DEFAULT_DAYS_UNTIL_PROMPT = 3;
+    private final static int DEFAULT_LAUNCHES_UNTIL_PROMPT = 7;
+
+
+    private int daysUntilPrompt = DEFAULT_DAYS_UNTIL_PROMPT;
+    private int launchesUntilPrompt = DEFAULT_LAUNCHES_UNTIL_PROMPT;
+    private int daysUntilPromptForRemindLater = DEFAULT_DAYS_UNTIL_PROMPT;
+    private int launchesUntilPromptForRemindLater = DEFAULT_LAUNCHES_UNTIL_PROMPT;
     private boolean hideNoButton;
     private boolean isVersionNameCheckEnabled;
     private boolean isVersionCodeCheckEnabled;
     private boolean isCancelable = true;
-
-    private static String packageName;
-
+    private String packageName;
     private Market market = new GoogleMarket();
 
-    @SuppressLint("NewApi")
-    public enum Theme {
-        LIGHT(AlertDialog.THEME_HOLO_LIGHT),
-        DARK(AlertDialog.THEME_HOLO_DARK);
-        private int theme;
-
-        Theme(int theme) {
-            this.theme = theme;
-        }
-    }
-
     public static class Builder {
-        private int daysUntilPrompt = 3;
-        private int launchesUntilPrompt = 7;
-        private int daysUntilPromptForRemindLater = 3;
-        private int launchesUntilPromptForRemindLater = 7;
-
-        private Theme theme = Theme.LIGHT;
-        private boolean isThemeSet;
+        private int daysUntilPrompt = DEFAULT_DAYS_UNTIL_PROMPT;
+        private int launchesUntilPrompt = DEFAULT_LAUNCHES_UNTIL_PROMPT;
+        private int daysUntilPromptForRemindLater = DEFAULT_DAYS_UNTIL_PROMPT;
+        private int launchesUntilPromptForRemindLater = DEFAULT_LAUNCHES_UNTIL_PROMPT;
         private boolean hideNoButton;
         private boolean isVersionNameCheckEnabled;
         private boolean isVersionCodeCheckEnabled;
         private boolean isCancelable = true;
-
+        private String packageName;
         private Market market = new GoogleMarket();
 
-        public Builder theme(Theme theme) {
-            this.theme = theme;
-            this.isThemeSet = true;
-            return this;
-        }
 
+        /**
+         * Sets the number of days from the first launch at which the rate prompt will be shown
+         *
+         * @param daysUntilPrompt the number of days at with to prompt
+         * @return builder
+         */
         public Builder daysUntilPrompt(int daysUntilPrompt) {
             this.daysUntilPrompt = daysUntilPrompt;
             return this;
         }
 
+        /**
+         * Sets the number of launches from the first launch at which the rate prompt will be shown
+         *
+         * @param launchesUntilPrompt the number of launches at with to prompt
+         * @return builder
+         */
         public Builder launchesUntilPrompt(int launchesUntilPrompt) {
             this.launchesUntilPrompt = launchesUntilPrompt;
             return this;
         }
 
+        /**
+         * Sets the number of days from the remind later button being pressed at which the rate prompt will be shown again
+         *
+         * @param daysUntilPromptForRemindLater the number of days at with to prompt
+         * @return builder
+         */
         public Builder daysUntilPromptForRemindLater(int daysUntilPromptForRemindLater) {
             this.daysUntilPromptForRemindLater = daysUntilPromptForRemindLater;
             return this;
         }
 
+        /**
+         * Sets the number of launches from the remind later button being pressed at which the rate prompt will be shown again
+         *
+         * @param launchesUntilPromptForRemindLater the number of launches at with to prompt
+         * @return builder
+         */
         public Builder launchesUntilPromptForRemindLater(int launchesUntilPromptForRemindLater) {
             this.launchesUntilPromptForRemindLater = launchesUntilPromptForRemindLater;
             return this;
         }
 
+        /**
+         * Sets whether to display the No Thanks button on the rate prompt.
+         *
+         * @param hideNoButton true to hide the No Thanks button
+         * @return builder
+         */
         public Builder hideNoButton(boolean hideNoButton) {
             this.hideNoButton = hideNoButton;
             return this;
         }
 
+        /**
+         * If enabled this will reset the day/launch counts when a new version name is detected
+         *
+         * @param isVersionNameCheckEnabled true to enable version name checking
+         * @return builder
+         */
         public Builder versionNameCheckEnabled(boolean isVersionNameCheckEnabled) {
             this.isVersionNameCheckEnabled = isVersionNameCheckEnabled;
             return this;
         }
 
+        /**
+         * If enabled this will reset the day/launch counts when a new version code is detected
+         *
+         * @param isVersionCodeCheckEnabled true to enable version code checking
+         * @return builder
+         */
         public Builder versionCodeCheckEnabled(boolean isVersionCodeCheckEnabled) {
             this.isVersionCodeCheckEnabled = isVersionCodeCheckEnabled;
             return this;
         }
 
+        /**
+         * If enabled will allow the dialog to be cancelled rather than specifically chose an option
+         *
+         * @param isCancelable true to set that the dialog is cancelable
+         * @return builder
+         */
         public Builder cancelable(boolean isCancelable) {
             this.isCancelable = isCancelable;
             return this;
         }
 
+        /**
+         * Sets the market to use, different markets have different URI's to trigger the app store rating
+         * Market classes are responsible for generating URI's combining the package name with the base market URI.
+         *
+         * @param market the market URL generator to use
+         * @return builder
+         */
         public Builder market(Market market) {
             this.market = market;
+            this.market.setPackageName(packageName);
+            return this;
+        }
+
+        /**
+         * When compiling a debug version of your app this allows you to change the package name for testing purposes.
+         *
+         * @param packageName the package name that should be set and used via the market URI
+         * @return builder
+         */
+        public Builder packageName(String packageName) {
+            this.packageName = packageName;
+            this.market.setPackageName(packageName);
             return this;
         }
 
@@ -129,12 +177,11 @@ public class AppRater {
         this.launchesUntilPrompt = builder.launchesUntilPrompt;
         this.daysUntilPromptForRemindLater = builder.daysUntilPromptForRemindLater;
         this.launchesUntilPromptForRemindLater = builder.launchesUntilPromptForRemindLater;
-        this.isDark = Theme.DARK.equals(builder.theme);
-        this.themeSet = builder.isThemeSet;
         this.hideNoButton = builder.hideNoButton;
         this.isVersionNameCheckEnabled = builder.isVersionNameCheckEnabled;
         this.isVersionCodeCheckEnabled = builder.isVersionCodeCheckEnabled;
         this.isCancelable = builder.isCancelable;
+        this.packageName = builder.packageName;
         this.market = builder.market;
     }
 
@@ -154,14 +201,14 @@ public class AppRater {
             if (!ratingInfo.getApplicationVersionName().equals(prefs.getString(PREF_APP_VERSION_NAME, "none"))) {
                 editor.putString(PREF_APP_VERSION_NAME, ratingInfo.getApplicationVersionName());
                 resetData(context);
-                commitOrApply(editor);
+                editor.apply();
             }
         }
         if (isVersionCodeCheckEnabled) {
             if (ratingInfo.getApplicationVersionCode() != (prefs.getInt(PREF_APP_VERSION_CODE, -1))) {
                 editor.putInt(PREF_APP_VERSION_CODE, ratingInfo.getApplicationVersionCode());
                 resetData(context);
-                commitOrApply(editor);
+                editor.apply();
             }
         }
         if (prefs.getBoolean(PREF_DONT_SHOW_AGAIN, false)) {
@@ -188,7 +235,7 @@ public class AppRater {
         if (launch_count >= launches || (System.currentTimeMillis() >= date_firstLaunch + (days * 24 * 60 * 60 * 1000))) {
             showRateAlertDialog(context, editor);
         }
-        commitOrApply(editor);
+        editor.apply();
     }
 
     /**
@@ -214,10 +261,6 @@ public class AppRater {
         }
     }
 
-    public void setPackageName(String packageName) {
-        this.market.overridePackageName(packageName);
-    }
-
     /**
      * Returns whether the Rate Now button has been pressed in the past
      *
@@ -241,8 +284,8 @@ public class AppRater {
 
         if (editor != null) {
             editor.putBoolean(PREF_DONT_SHOW_AGAIN, rated);
+            editor.apply();
         }
-        commitOrApply(editor);
     }
 
     /**
@@ -250,12 +293,8 @@ public class AppRater {
      */
     @SuppressLint("NewApi")
     private void showRateAlertDialog(final Context context, final SharedPreferences.Editor editor) {
-        AlertDialog.Builder dialogBuilder;
-        if (Build.VERSION.SDK_INT >= 11 && themeSet) {
-            dialogBuilder = new AlertDialog.Builder(context, (isDark ? AlertDialog.THEME_HOLO_DARK : AlertDialog.THEME_HOLO_LIGHT));
-        } else {
-            dialogBuilder = new AlertDialog.Builder(context);
-        }
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+
         ApplicationRatingInfo ratingInfo = ApplicationRatingInfo.createApplicationInfo(context);
         dialogBuilder.setTitle(String.format(context.getString(R.string.apprater_dialog_title), ratingInfo.getApplicationName()));
 
@@ -269,7 +308,7 @@ public class AppRater {
                         rateNow(context);
                         if (editor != null) {
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, true);
-                            commitOrApply(editor);
+                            editor.apply();
                         }
                         dialog.dismiss();
                     }
@@ -284,7 +323,7 @@ public class AppRater {
                             editor.putLong(PREF_LAUNCH_COUNT, 0);
                             editor.putBoolean(PREF_REMIND_LATER, true);
                             editor.putBoolean(PREF_DONT_SHOW_AGAIN, false);
-                            commitOrApply(editor);
+                            editor.apply();
                         }
                         dialog.dismiss();
                     }
@@ -299,7 +338,7 @@ public class AppRater {
                                 long date_firstLaunch = System.currentTimeMillis();
                                 editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
                                 editor.putLong(PREF_LAUNCH_COUNT, 0);
-                                commitOrApply(editor);
+                                editor.apply();
                             }
                             dialog.dismiss();
                         }
@@ -340,15 +379,6 @@ public class AppRater {
         alertDialog.show();
     }
 
-    @SuppressLint("NewApi")
-    private static void commitOrApply(SharedPreferences.Editor editor) {
-        if (Build.VERSION.SDK_INT > 8) {
-            editor.apply();
-        } else {
-            editor.commit();
-        }
-    }
-
     public static void resetData(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -357,6 +387,6 @@ public class AppRater {
         editor.putLong(PREF_LAUNCH_COUNT, 0);
         long date_firstLaunch = System.currentTimeMillis();
         editor.putLong(PREF_FIRST_LAUNCHED, date_firstLaunch);
-        commitOrApply(editor);
+        editor.apply();
     }
 }

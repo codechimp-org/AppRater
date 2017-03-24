@@ -9,7 +9,7 @@ public abstract class Market {
 
     protected abstract Uri getMarketURI(Context context);
 
-    public void overridePackageName(String packageName) {
+    protected void setPackageName(String packageName) {
         Market.packageName = packageName;
     }
 

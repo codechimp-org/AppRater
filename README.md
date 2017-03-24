@@ -33,6 +33,10 @@ If you want to have a "Rate Now" menu option to go straight to your play store l
 
 Try out the demo within this repository.
 
+
+## Documentation
+https://jitpack.io/com/github/codechimp-org/apprater/2.0.0/javadoc/
+
 ## Gradle
 
 AppRater is now published via JitPack, so you just need to add the following.
@@ -68,7 +72,7 @@ If you would like to help localise this library please fork the project, create 
 ## Note to collaborators on releasing
 A GitHub release must be created for JitPack to pick this as the current stable version.
 * Ensure VERSION_NAME and VERSION_CODE are updated within root gradle.properties
-* Update the dependency info in this readme with the latest version number
+* Update the dependency info and documentation url in this readme with the latest version number
 * Create a new release in GitHub from the master branch, maintaining the current format as follows:
 
     Version Tag: 2.x.x

@@ -5,8 +5,8 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 18
+        minSdkVersion 9
+        targetSdkVersion 25
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
@@ -15,4 +15,46 @@ android {
     lintOptions {
         abortOnError false
     }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:25.1.1'
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+    ext.androidJar =
+            "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+
+    options {
+        linksOffline("http://d.android.com/reference", "${project.android.sdkDirectory}/docs/reference")
+        links("http://docs.oracle.com/javase/7/docs/api/");
+        setMemberLevel(JavadocMemberLevel.PACKAGE)
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+    failOnError false
+}
+
+task javadocsJar(type: Jar, dependsOn: javadocs) {
+    classifier = 'javadoc'
+    //basename = artifact_id
+    from javadocs.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocsJar
 }
