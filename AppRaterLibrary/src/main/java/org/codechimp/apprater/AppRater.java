@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class AppRater {
     // Preference Constants
@@ -123,9 +126,9 @@ public class AppRater {
 
     public AppRater(Builder builder) {
         this.daysUntilPrompt = builder.daysUntilPrompt;
-        this.launchesUntilPrompt= builder.launchesUntilPrompt;
-        this.daysUntilPromptForRemindLater= builder.daysUntilPromptForRemindLater;
-        this.launchesUntilPromptForRemindLater= builder.launchesUntilPromptForRemindLater;
+        this.launchesUntilPrompt = builder.launchesUntilPrompt;
+        this.daysUntilPromptForRemindLater = builder.daysUntilPromptForRemindLater;
+        this.launchesUntilPromptForRemindLater = builder.launchesUntilPromptForRemindLater;
         this.isDark = Theme.DARK.equals(builder.theme);
         this.themeSet = builder.isThemeSet;
         this.hideNoButton = builder.hideNoButton;
@@ -302,7 +305,39 @@ public class AppRater {
                         }
                     });
         }
-        dialogBuilder.show();
+
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                try {
+                    final Button buttonPositive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+
+                    if (buttonPositive == null) {
+                        return;
+                    }
+
+                    LinearLayout linearLayout = (LinearLayout) buttonPositive.getParent();
+                    if (linearLayout == null) {
+                        return;
+                    }
+
+                    // Check positive button not fits in window
+                    boolean shouldUseVerticalLayout = false;
+                    if (buttonPositive.getLeft() + buttonPositive.getWidth() > linearLayout.getWidth()) {
+                        shouldUseVerticalLayout = true;
+                    }
+
+                    // Change layout orientation to vertical
+                    if (shouldUseVerticalLayout) {
+                        linearLayout.setOrientation(LinearLayout.VERTICAL);
+                        linearLayout.setGravity(Gravity.END);
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        });
+        alertDialog.show();
     }
 
     @SuppressLint("NewApi")
