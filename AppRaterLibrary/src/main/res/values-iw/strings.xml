@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apprater_dialog_title">דירוג %s</string>
+    <string name="apprater_rate_message">אם אתה נהנה להשתמש באפליקציה, אנא הקדש דקה מזמנך על מנת לדרג את האפליקציה. תודה על תמיכתך</string>
+    <string name="apprater_rate">דרג עכשיו</string>
+    <string name="apprater_later">אחר כך</string>
+    <string name="apprater_no_thanks">לא תודה</string>
+</resources>
