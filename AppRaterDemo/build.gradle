@@ -11,6 +11,10 @@ android {
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
 
+    lintOptions {
+        disable 'MissingTranslation'
+    }
+
     signingConfigs {
         release
     }
