@@ -1,5 +1,7 @@
 # AppRater
 
+## Due to lack of available time to thoroughly regression test improvements, other than translations no pull requests will be merged into this project.
+
 AppRater is a library for Android designed to facilitate easy prompting of users to rate your app within the Google Play store or Amazon App Store.
 It won't prompt until at least 3 days or 7 uses of the app has passed and if the user chooses to rate later the count will start again.
 
