@@ -3,6 +3,6 @@
     <string name="apprater_dialog_title">Оцени %s</string>
     <string name="apprater_rate_message">Ако вам се свиђе ова апликација, молим вас одвојите мало времена да је оцените. Хвала на подршци!</string>
     <string name="apprater_rate">Оцени сада</string>
-    <string name="apprater_later">Kasnije</string>
+    <string name="apprater_later">Касније</string>
     <string name="apprater_no_thanks">Не, хвала</string>
 </resources>
