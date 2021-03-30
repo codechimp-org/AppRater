@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="apprater_dialog_title">%s Derecelendir</string>
-    <string name="apprater_rate_message">Bu uygulamayı beğendiyseniz lütfen derecelendirin. Desteğiniz için teşekkürler.</string>
+    <string name="apprater_dialog_title">%s'i Değerlendir</string>
+    <string name="apprater_rate_message">Uygulamamızı beğendiyseniz lütfen değerlendirin. Şimdiden teşekkürler!</string>
     <string name="apprater_rate">Şimdi</string>
     <string name="apprater_later">Sonra</string>
     <string name="apprater_no_thanks">Hayır</string>
